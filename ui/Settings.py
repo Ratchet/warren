@@ -7,6 +7,12 @@ class Settings(QDialog):
         QDialog.__init__(self, None)
         self.ui = Ui_SettingsDialog()
         self.ui.setupUi(self)
+
+        # TODO fcp test node client
+        self.ui.testResultsEdit.append('Settings test not yet implemented')
+
+        self.ui.testResultsEdit.setReadOnly(True)
+        self.ui.testSettingsButton.setDisabled(True)
         self.config = config
         print config
         self.populate_fields()

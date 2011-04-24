@@ -30,6 +30,7 @@ class MainWindow(QWidget):
 
         menu = QMenu(self)
         settingsAction = menu.addAction("Settings")
+        menu.addSeparator()
         quitAction = menu.addAction("Quit")
         action = menu.exec_(self.mapToGlobal(event.pos()))
         if action == quitAction:
