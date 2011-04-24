@@ -20,6 +20,8 @@ class MainWindow(QWidget):
         self.setMouseTracking(True)
         self.moving = False
 
+        self.nodeConnected = False
+
         self.config = Config.Config()
         self.settings = Settings.Settings(self.config)
         self.pastebin = Pastebin.Pastebin()
@@ -61,10 +63,12 @@ class MainWindow(QWidget):
 
     def nodeConnected(self):
         print "mainwindow nodeConnected()"
+        self.nodeConnected = True
         self.dropArea.setPixmap(QPixmap('images/dropzone.png'))
 
     def nodeNotConnected(self):
         print "mainwindow nodeNotConnected()"
+        self.nodeConnected = False
         self.dropArea.setPixmap(QPixmap('images/dropzone_nocon.png'))
 
 
