@@ -23,6 +23,7 @@ class Pastebin(QDialog):
         self.ui.plainTextEdit.clear()
         self.ui.buttonBox.buttons()[0].setEnabled(True)
         self.ui.plainTextEdit.setReadOnly(False)
+        self.emit(QtCore.SIGNAL("pasteCanceled()"))
         self.hide()
 
     def pasteFinished(self, result):

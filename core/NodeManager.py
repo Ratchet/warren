@@ -34,6 +34,11 @@ class NodeManager(QThread):
             self.node = None
         self.connectNode()
 
+    def pasteCanceled(self):
+        if hasattr(self, 'pasteInsert'):
+            print "killing insert thread"
+            self.pasteInsert.quit()
+
     def newPaste(self,qPaste):
         self.pasteInsert = PutPaste(qPaste, self)
         self.connect(self.pasteInsert, SIGNAL("pasteInsertMessage(QString)"), self.pasteMessageForwarder)
