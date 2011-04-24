@@ -22,6 +22,7 @@ class MainWindow(QWidget):
         self.config = Config.Config()
         self.nodeManager = NodeManager.NodeManager(self.config)
         self.connect(self.nodeManager, SIGNAL("nodeConnected()"), self.nodeConnected)
+        self.connect(self.nodeManager, SIGNAL("nodeConnectionLost()"), self.nodeNotConnected)
 
     def contextMenuEvent(self, event):
 
@@ -44,6 +45,10 @@ class MainWindow(QWidget):
 
     def nodeConnected(self):
         self.dropArea.setPixmap(QPixmap('images/dropzone.png'))
+
+    def nodeNotConnected(self):
+        self.dropArea.setPixmap(QPixmap('images/dropzone_nocon.png'))
+
 
     def closeApp(self):
         self.nodeManager.stop()
