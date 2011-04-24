@@ -7,6 +7,7 @@ class MainWindow(QWidget):
     def __init__(self):
         super(QWidget, self).__init__()
 
+        #TODO "keep on top" window option
         self.setWindowFlags(self.windowFlags() | Qt.FramelessWindowHint)
         self.setWindowOpacity(1.0)
         layout = QHBoxLayout()
@@ -23,7 +24,7 @@ class MainWindow(QWidget):
         self.moving = False
 
         self.nodeManagerConnected = False
-        self.dropAccepted = False
+        self.dropData = {'accepted' : False, 'url' : None, 'content-type' : None}
 
         self.config = Config.Config()
         self.settings = Settings.Settings(self.config)
@@ -54,20 +55,24 @@ class MainWindow(QWidget):
     def enterEvent(self, mimeData = None):
         print "enter event mainwindow"
         if not mimeData or not hasattr(mimeData, 'formats'): return
-        if self.nodeManagerConnected and FileManager.checkFileForInsert(mimeData):
+        if self.nodeManagerConnected:
+            fileinfo = FileManager.checkFileForInsert(mimeData)
             #TODO show a dropzone_rejected.png if checkFileForInsert() returns False
-            self.dropZone.setPixmap(QPixmap('images/dropzone_ok.png'))
-            self.dropAccepted = True
+            if fileinfo:
+                self.dropZone.setPixmap(QPixmap('images/dropzone_ok.png'))
+                self.dropData['accepted'] = True
+                self.dropData['url'] = fileinfo[0]
+                self.dropData['content-type'] = fileinfo[1]
 
     def dropEvent(self, mimeData = None):
         print "drop event mainwindow"
         if not mimeData or not hasattr(mimeData, 'formats') or not self.nodeManagerConnected:
             self.dropZone.setPixmap(QPixmap('images/dropzone.png')) # because it's leave event, too
-            self.dropAccepted = False
+            self.dropData = {'accepted' : False, 'url' : None, 'content-type' : None}
             return
         # TODO do the insert start here
-        if self.dropAccepted:
-            print "starting file insert"
+        if self.dropData['accepted']:
+            print "starting file insert: %s %s" % (self.dropData['url'], self.dropData['content-type'])
         self.dropZone.setPixmap(QPixmap('images/dropzone.png'))
 
     def mouseMoveEvent(self, event):

@@ -23,7 +23,6 @@ class NodeManager(QThread):
             self.node = FCPNode(name="FripeClient",host=self.config['node']['host'],port=int(self.config['node']['fcp_port']),verbosity=5)
             self.emit(SIGNAL("nodeConnected()"))
         except Exception, e:
-            #TODO show user alert dialog
             print e
             self.node = None
 
