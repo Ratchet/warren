@@ -3,6 +3,8 @@ from configobj import ConfigObj
 
 CONFIG_DEFAULTS = {'node':{'host':'127.0.0.1','fcp_port':9481}}
 
+#TODO options for priorities, separate for pastebin and file inserts
+
 class Config(ConfigObj):
 
     def __init__(self):

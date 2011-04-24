@@ -85,7 +85,7 @@ class PutPaste(QThread):
     def putPaste(self, qPaste, callback, async=True):
         paste = unicode(qPaste)
         paste = paste.encode('utf-8')
-        insert = self.node.put(uri='SSK@',data=paste,async=async,Verbosity=5,mimetype="text/plain; charset=utf-8",callback=callback,waituntilsent=True)
+        insert = self.node.put(uri='SSK@',data=paste,async=async,name='pastebin',Verbosity=5,mimetype="text/plain; charset=utf-8",callback=callback,waituntilsent=True)
         return insert
 
     # TODO turn these messages in data messages and handle output formating in pastebin dialog
@@ -99,7 +99,7 @@ class PutPaste(QThread):
                 text += ' Total: ' + str(val2.get('Total'))
                 text += ' Succeeded: ' + str(val2.get('Succeeded'))
                 text += ' Failed: ' + str(val2.get('Failed'))
-                text += ' FatallyFailed: ' + str(val2.get('FatallyFailed'))
+                text += ' Fatal: ' + str(val2.get('FatallyFailed'))
                 text += ' Required: ' + str(val2.get('Required'))
                 self.emit(SIGNAL("pasteInsertMessage(QString)"),text)
         elif val1=='failed':
