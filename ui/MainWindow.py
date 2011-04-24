@@ -1,7 +1,7 @@
 from PyQt4.QtGui import QWidget, QLabel, QHBoxLayout, QMenu, qApp, QPixmap
 from PyQt4.QtCore import Qt, SIGNAL
 from core import Config, NodeManager
-from ui import Settings, Pastebin
+from ui import Settings, Pastebin, DropZone
 
 class MainWindow(QWidget):
     def __init__(self):
@@ -11,16 +11,18 @@ class MainWindow(QWidget):
         self.setWindowOpacity(1.0)
         layout = QHBoxLayout()
         layout.setMargin(0)
-        self.dropArea = QLabel()
-        self.dropArea.setMargin(0)
-        self.dropArea.setPixmap(QPixmap('images/dropzone_nocon.png'))
+        self.dropZone = DropZone.DropZone()
+        self.dropZone.setMargin(0)
+        self.dropZone.setPixmap(QPixmap('images/dropzone_nocon.png'))
+        self.dropZone.changed.connect(self.dropEvent)
+        self.dropZone.entered.connect(self.enterEvent)
 
-        layout.addWidget(self.dropArea)
+        layout.addWidget(self.dropZone)
         self.setLayout(layout)
         self.setMouseTracking(True)
         self.moving = False
 
-        self.nodeConnected = False
+        self.nodeManagerConnected = False
 
         self.config = Config.Config()
         self.settings = Settings.Settings(self.config)
@@ -48,7 +50,16 @@ class MainWindow(QWidget):
         if action == pastebinAction:
             self.pastebin.show()
 
+    def enterEvent(self, mimeData = None):
+        print "enter event mainwindow"
+        if not mimeData or not hasattr(mimeData, 'formats'): return
+        if self.nodeManagerConnected:
+            self.dropZone.setPixmap(QPixmap('images/dropzone_ok.png'))
 
+    def dropEvent(self, mimeData = None):
+        print "drop event mainwindow"
+        if not mimeData or not hasattr(mimeData, 'formats') or not self.nodeManagerConnected: return
+        self.dropZone.setPixmap(QPixmap('images/dropzone.png'))
 
     def mouseMoveEvent(self, event):
         if self.moving: self.move(event.globalPos()-self.offset)
@@ -63,13 +74,13 @@ class MainWindow(QWidget):
 
     def nodeConnected(self):
         print "mainwindow nodeConnected()"
-        self.nodeConnected = True
-        self.dropArea.setPixmap(QPixmap('images/dropzone.png'))
+        self.nodeManagerConnected = True
+        self.dropZone.setPixmap(QPixmap('images/dropzone.png'))
 
     def nodeNotConnected(self):
         print "mainwindow nodeNotConnected()"
-        self.nodeConnected = False
-        self.dropArea.setPixmap(QPixmap('images/dropzone_nocon.png'))
+        self.nodeManagerConnected = False
+        self.dropZone.setPixmap(QPixmap('images/dropzone_nocon.png'))
 
 
     def closeApp(self):
