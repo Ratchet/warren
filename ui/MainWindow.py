@@ -1,7 +1,7 @@
 from PyQt4.QtGui import QWidget, QLabel, QHBoxLayout, QMenu, qApp, QPixmap
 from PyQt4.QtCore import Qt, SIGNAL
 from core import Config, NodeManager
-from ui import Settings
+from ui import Settings, Pastebin
 
 class MainWindow(QWidget):
     def __init__(self):
@@ -22,6 +22,7 @@ class MainWindow(QWidget):
 
         self.config = Config.Config()
         self.settings = Settings.Settings(self.config)
+        self.pastebin = Pastebin.Pastebin()
         self.nodeManager = NodeManager.NodeManager(self.config)
         self.connect(self.nodeManager, SIGNAL("nodeConnected()"), self.nodeConnected)
         self.connect(self.nodeManager, SIGNAL("nodeConnectionLost()"), self.nodeNotConnected)
@@ -29,6 +30,7 @@ class MainWindow(QWidget):
     def contextMenuEvent(self, event):
 
         menu = QMenu(self)
+        pastebinAction = menu.addAction("Pastebin")
         settingsAction = menu.addAction("Settings")
         menu.addSeparator()
         quitAction = menu.addAction("Quit")
@@ -37,6 +39,9 @@ class MainWindow(QWidget):
             self.closeApp()
         if action == settingsAction:
             self.settings.show()
+        if action == pastebinAction:
+            self.pastebin.show()
+
 
 
     def mouseMoveEvent(self, event):
