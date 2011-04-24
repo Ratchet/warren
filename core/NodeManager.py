@@ -37,9 +37,11 @@ class NodeManager(QThread):
     def pasteCanceled(self):
         if hasattr(self, 'pasteInsert'):
             print "killing insert thread"
+            # TODO cancel request in node, too (FCP message "RemoveRequest")
             self.pasteInsert.quit()
 
     def newPaste(self,qPaste):
+        #TODO handle node disconnect during insert
         self.pasteInsert = PutPaste(qPaste, self)
         self.connect(self.pasteInsert, SIGNAL("pasteInsertMessage(QString)"), self.pasteMessageForwarder)
         self.connect(self.pasteInsert, SIGNAL("pasteInsertFinished(QString)"), self.pasteFinished)
