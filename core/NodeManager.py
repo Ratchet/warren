@@ -12,6 +12,7 @@ class NodeManager(QThread):
 
     def run(self):
         print "NodeManager thread starting"
+        QThread.msleep(1000) # wait a second or sometimes signals can't get through right after startup
         self.connectNode()
         self.watchdog = NodeWatchdog(self)
         self.connect(self.watchdog, SIGNAL("nodeNotConnected()"), self.nodeNotConnected)
