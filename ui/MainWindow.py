@@ -1,5 +1,6 @@
 from PyQt4.QtGui import QWidget, QLabel, QHBoxLayout, QMenu, qApp, QPixmap
 from PyQt4.QtCore import Qt
+from core import Config, NodeManager
 
 class MainWindow(QWidget):
     def __init__(self):
@@ -9,14 +10,17 @@ class MainWindow(QWidget):
         self.setWindowOpacity(1.0)
         layout = QHBoxLayout()
         layout.setMargin(0)
-        self.label = QLabel()
-        self.label.setMargin(0)
-        self.label.setPixmap(QPixmap('images/dropzone.png'))
+        self.dropArea = QLabel()
+        self.dropArea.setMargin(0)
+        self.dropArea.setPixmap(QPixmap('images/dropzone_nocon.png'))
 
-        layout.addWidget(self.label)
+        layout.addWidget(self.dropArea)
         self.setLayout(layout)
         self.setMouseTracking(True)
         self.moving = False
+
+        self.config = Config.Config()
+        self.nodeManager = NodeManager.NodeManager(self.config)
 
     def contextMenuEvent(self, event):
 
@@ -24,7 +28,7 @@ class MainWindow(QWidget):
         quitAction = menu.addAction("Quit")
         action = menu.exec_(self.mapToGlobal(event.pos()))
         if action == quitAction:
-            qApp.quit()
+            self.closeApp()
 
     def mouseMoveEvent(self, event):
         if self.moving: self.move(event.globalPos()-self.offset)
@@ -36,3 +40,8 @@ class MainWindow(QWidget):
     def mouseReleaseEvent(self, event):
         if event.button() == Qt.LeftButton:
             self.moving = False
+
+    def closeApp(self):
+        self.nodeManager.stop()
+        qApp.quit()
+
