@@ -23,6 +23,7 @@ class MainWindow(QWidget):
         self.moving = False
 
         self.nodeManagerConnected = False
+        self.dropAccepted = False
 
         self.config = Config.Config()
         self.settings = Settings.Settings(self.config)
@@ -54,11 +55,16 @@ class MainWindow(QWidget):
         print "enter event mainwindow"
         if not mimeData or not hasattr(mimeData, 'formats'): return
         if self.nodeManagerConnected and FileManager.checkFileForInsert(mimeData):
+            #TODO show a dropzone_rejected.png if checkFileForInsert() returns False
             self.dropZone.setPixmap(QPixmap('images/dropzone_ok.png'))
+            self.dropAccepted = True
 
     def dropEvent(self, mimeData = None):
         print "drop event mainwindow"
-        if not mimeData or not hasattr(mimeData, 'formats') or not self.nodeManagerConnected: return
+        if not mimeData or not hasattr(mimeData, 'formats') or not self.nodeManagerConnected:
+            self.dropZone.setPixmap(QPixmap('images/dropzone.png')) # because it's leave event, too
+            return
+        # TODO do the insert start here
         self.dropZone.setPixmap(QPixmap('images/dropzone.png'))
 
     def mouseMoveEvent(self, event):
