@@ -1,5 +1,6 @@
 from fcp import FCPNode
 from PyQt4.QtCore import QThread, SIGNAL, QString
+import FileManager
 
 class NodeManager(QThread):
 
@@ -53,6 +54,12 @@ class NodeManager(QThread):
 
     def pasteMessageForwarder(self, msg):
         self.emit(SIGNAL("inserterMessage(QString)"),QString(msg))
+
+    def insertFile(self, url, mimeType):
+        print url
+        print mimeType
+        fileInsert = FileManager.FileInsert(self, url, mimeType)
+        fileInsert.start()
 
     def stop(self):
         self.watchdog.quit()

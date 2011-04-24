@@ -66,13 +66,15 @@ class MainWindow(QWidget):
 
     def dropEvent(self, mimeData = None):
         print "drop event mainwindow"
+
         if not mimeData or not hasattr(mimeData, 'formats') or not self.nodeManagerConnected:
-            self.dropZone.setPixmap(QPixmap('images/dropzone.png')) # because it's leave event, too
+            self.dropZone.setPixmap(QPixmap('images/dropzone.png')) # because it's leave event, too (mimeData=None)
             self.dropData = {'accepted' : False, 'url' : None, 'content-type' : None}
             return
-        # TODO do the insert start here
+
         if self.dropData['accepted']:
-            print "starting file insert: %s %s" % (self.dropData['url'], self.dropData['content-type'])
+            self.nodeManager.insertFile(self.dropData['url'], self.dropData['content-type'])
+
         self.dropZone.setPixmap(QPixmap('images/dropzone.png'))
 
     def mouseMoveEvent(self, event):
