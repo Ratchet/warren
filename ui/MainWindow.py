@@ -1,6 +1,7 @@
 from PyQt4.QtGui import QWidget, QLabel, QHBoxLayout, QMenu, qApp, QPixmap
 from PyQt4.QtCore import Qt, SIGNAL
 from core import Config, NodeManager
+from ui import Settings
 
 class MainWindow(QWidget):
     def __init__(self):
@@ -20,6 +21,7 @@ class MainWindow(QWidget):
         self.moving = False
 
         self.config = Config.Config()
+        self.settings = Settings.Settings(self.config)
         self.nodeManager = NodeManager.NodeManager(self.config)
         self.connect(self.nodeManager, SIGNAL("nodeConnected()"), self.nodeConnected)
         self.connect(self.nodeManager, SIGNAL("nodeConnectionLost()"), self.nodeNotConnected)
@@ -27,10 +29,14 @@ class MainWindow(QWidget):
     def contextMenuEvent(self, event):
 
         menu = QMenu(self)
+        settingsAction = menu.addAction("Settings")
         quitAction = menu.addAction("Quit")
         action = menu.exec_(self.mapToGlobal(event.pos()))
         if action == quitAction:
             self.closeApp()
+        if action == settingsAction:
+            self.settings.show()
+
 
     def mouseMoveEvent(self, event):
         if self.moving: self.move(event.globalPos()-self.offset)
@@ -44,9 +50,11 @@ class MainWindow(QWidget):
             self.moving = False
 
     def nodeConnected(self):
+        print "mainwindow nodeConnected()"
         self.dropArea.setPixmap(QPixmap('images/dropzone.png'))
 
     def nodeNotConnected(self):
+        print "mainwindow nodeNotConnected()"
         self.dropArea.setPixmap(QPixmap('images/dropzone_nocon.png'))
 
 

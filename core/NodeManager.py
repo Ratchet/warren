@@ -48,6 +48,7 @@ class NodeWatchdog(QThread):
         self.start()
 
     def run(self):
+        QThread.msleep(10000) # on startup wait additional 10 seconds
         while(True):
             QThread.msleep(5000)
             isNodeRunning = self.nodeManager.node is not None and self.nodeManager.node.running
