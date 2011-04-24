@@ -53,19 +53,22 @@ class MainWindow(QWidget):
             self.pastebin.show()
 
     def enterEvent(self, mimeData = None):
-        print "enter event mainwindow"
+
         if not mimeData or not hasattr(mimeData, 'formats'): return
+
         if self.nodeManagerConnected:
+
             fileinfo = FileManager.checkFileForInsert(mimeData)
-            #TODO show a dropzone_rejected.png if checkFileForInsert() returns False
+
             if fileinfo:
                 self.dropZone.setPixmap(QPixmap('images/dropzone_ok.png'))
                 self.dropData['accepted'] = True
                 self.dropData['url'] = fileinfo[0]
                 self.dropData['content-type'] = fileinfo[1]
+            else:
+                self.dropZone.setPixmap(QPixmap('images/dropzone_rejected.png'))
 
     def dropEvent(self, mimeData = None):
-        print "drop event mainwindow"
 
         if not mimeData or not hasattr(mimeData, 'formats') or not self.nodeManagerConnected:
             self.dropZone.setPixmap(QPixmap('images/dropzone.png')) # because it's leave event, too (mimeData=None)
