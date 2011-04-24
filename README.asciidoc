@@ -1,0 +1,16 @@
+Warren
+======
+:keywords:    Warren, Freenet
+:description: Warren is a dropzone-application for Freenet.
+
+
+.What is warren?
+Warren is a dropzone-application for link:http://www.freenetproject.org[Freenet]. 
+
+.Dependencies
+* python 2.6
+* PyQt4
+* configobj
+* pyFreenet
+
+IMPORTANT: at the moment a modified version of pyFreenet is required. Warren will not run without it. This will be fixed soon.
