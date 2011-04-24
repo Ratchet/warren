@@ -1,6 +1,6 @@
 from PyQt4.QtGui import QWidget, QLabel, QHBoxLayout, QMenu, qApp, QPixmap
 from PyQt4.QtCore import Qt, SIGNAL
-from core import Config, NodeManager
+from core import Config, NodeManager, FileManager
 from ui import Settings, Pastebin, DropZone
 
 class MainWindow(QWidget):
@@ -14,7 +14,7 @@ class MainWindow(QWidget):
         self.dropZone = DropZone.DropZone()
         self.dropZone.setMargin(0)
         self.dropZone.setPixmap(QPixmap('images/dropzone_nocon.png'))
-        self.dropZone.changed.connect(self.dropEvent)
+        self.dropZone.dropped.connect(self.dropEvent)
         self.dropZone.entered.connect(self.enterEvent)
 
         layout.addWidget(self.dropZone)
@@ -53,7 +53,7 @@ class MainWindow(QWidget):
     def enterEvent(self, mimeData = None):
         print "enter event mainwindow"
         if not mimeData or not hasattr(mimeData, 'formats'): return
-        if self.nodeManagerConnected:
+        if self.nodeManagerConnected and FileManager.checkFileForInsert(mimeData):
             self.dropZone.setPixmap(QPixmap('images/dropzone_ok.png'))
 
     def dropEvent(self, mimeData = None):

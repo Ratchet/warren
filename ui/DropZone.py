@@ -3,7 +3,7 @@ from PyQt4 import QtCore, QtGui
 
 class DropZone(QtGui.QLabel):
 
-    changed = QtCore.pyqtSignal(QtCore.QMimeData)
+    dropped = QtCore.pyqtSignal(QtCore.QMimeData)
     entered = QtCore.pyqtSignal(QtCore.QMimeData)
 
     def __init__(self, parent = None):
@@ -24,7 +24,7 @@ class DropZone(QtGui.QLabel):
         event.acceptProposedAction()
 
     def dropEvent(self, event):
-        self.changed.emit(event.mimeData())
+        self.dropped.emit(event.mimeData())
         return
 
     def dragLeaveEvent(self, event):
@@ -32,6 +32,6 @@ class DropZone(QtGui.QLabel):
         event.accept()
 
     def clear(self):
-        self.changed.emit(None)
+        self.dropped.emit(None)
 
 
