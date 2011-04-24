@@ -1,5 +1,5 @@
 from PyQt4.QtGui import QWidget, QLabel, QHBoxLayout, QMenu, qApp, QPixmap
-from PyQt4.QtCore import Qt
+from PyQt4.QtCore import Qt, SIGNAL
 from core import Config, NodeManager
 
 class MainWindow(QWidget):
@@ -21,6 +21,7 @@ class MainWindow(QWidget):
 
         self.config = Config.Config()
         self.nodeManager = NodeManager.NodeManager(self.config)
+        self.connect(self.nodeManager, SIGNAL("nodeConnected()"), self.nodeConnected)
 
     def contextMenuEvent(self, event):
 
@@ -40,6 +41,9 @@ class MainWindow(QWidget):
     def mouseReleaseEvent(self, event):
         if event.button() == Qt.LeftButton:
             self.moving = False
+
+    def nodeConnected(self):
+        self.dropArea.setPixmap(QPixmap('images/dropzone.png'))
 
     def closeApp(self):
         self.nodeManager.stop()
