@@ -26,6 +26,9 @@ class MainWindow(QWidget):
         self.nodeManager = NodeManager.NodeManager(self.config)
         self.connect(self.nodeManager, SIGNAL("nodeConnected()"), self.nodeConnected)
         self.connect(self.nodeManager, SIGNAL("nodeConnectionLost()"), self.nodeNotConnected)
+        self.connect(self.pastebin, SIGNAL("newPaste(QString)"), self.nodeManager.newPaste)
+        self.connect(self.nodeManager, SIGNAL("inserterMessage(QString)"), self.pastebin.inserterMessage)
+        self.connect(self.nodeManager, SIGNAL("pasteFinished(QString)"), self.pastebin.pasteFinished)
 
     def contextMenuEvent(self, event):
 

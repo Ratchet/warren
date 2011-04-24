@@ -27,18 +27,74 @@ class NodeManager(QThread):
             self.node = None
 
     def nodeNotConnected(self):
-        print "not not connected"
+        print "node not connected"
         self.emit(SIGNAL("nodeConnectionLost()"))
         if self.node:
             self.node.shutdown()
             self.node = None
         self.connectNode()
 
+    def newPaste(self,qPaste):
+        self.pasteInsert = PutPaste(qPaste, self)
+        self.connect(self.pasteInsert, SIGNAL("pasteInsertMessage(QString)"), self.pasteMessageForwarder)
+        self.connect(self.pasteInsert, SIGNAL("pasteInsertFinished(QString)"), self.pasteFinished)
+        self.pasteInsert.start()
+
+    def pasteFinished(self, result):
+        self.emit(SIGNAL("pasteFinished(QString)"),QString(result))
+        self.pasteInsert.quit()
+
+    def pasteMessageForwarder(self, msg):
+        self.emit(SIGNAL("inserterMessage(QString)"),QString(msg))
+
     def stop(self):
         self.watchdog.quit()
         if self.node:
             self.node.shutdown()
         self.quit()
+
+class PutPaste(QThread):
+    """ use own thread because we can't send QT signals
+        asynchronously from the pyFreenet thread anyway"""
+
+    def __init__(self, paste, parent = None):
+        QThread.__init__(self, parent)
+        self.paste = paste
+        self.nodeManager = parent
+        self.node = parent.node
+
+    def run(self):
+        insert = self.putPaste(self.paste, self.insertcb, async=True)
+        self.emit(SIGNAL("pasteInsertMessage(QString)"),'Node is inserting text... Please wait')
+        insert.wait()
+
+    def putPaste(self, qPaste, callback, async=True):
+        paste = unicode(qPaste)
+        paste = paste.encode('utf-8')
+        insert = self.node.put(uri='SSK@',data=paste,async=async,Verbosity=5,mimetype="text/plain; charset=utf-8",callback=callback,waituntilsent=True)
+        return insert
+
+    # TODO turn these messages in data messages and handle output formating in pastebin dialog
+    def insertcb(self,val1,val2):
+        if val1=='pending':
+            if val2.get('header') == 'URIGenerated':
+                text = 'URIGenerated: ' + val2.get('URI') + '\nNode is inserting the SSK... Please wait.'
+                self.emit(SIGNAL("pasteInsertMessage(QString)"),text)
+            elif val2.get('header') == 'SimpleProgress':
+                text = 'Finalized: ' + val2.get('FinalizedTotal')
+                text += ' Total: ' + str(val2.get('Total'))
+                text += ' Succeeded: ' + str(val2.get('Succeeded'))
+                text += ' Failed: ' + str(val2.get('Failed'))
+                text += ' FatallyFailed: ' + str(val2.get('FatallyFailed'))
+                text += ' Required: ' + str(val2.get('Required'))
+                self.emit(SIGNAL("pasteInsertMessage(QString)"),text)
+        elif val1=='failed':
+            text = 'ERROR: ' + str(val2.get('CodeDescription','Unknown error'))
+            self.emit(SIGNAL("pasteInsertMessage(QString)"),text)
+        elif val1=='successful':
+            text = 'Successful: ' + val2
+            self.emit(SIGNAL("pasteInsertMessage(QString)"),text)
+            self.emit(SIGNAL("pasteInsertFinished(QString)"),str(val2))
 
 class NodeWatchdog(QThread):
 
