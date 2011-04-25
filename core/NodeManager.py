@@ -58,7 +58,7 @@ class NodeManager(QThread):
     def insertFile(self, url, mimeType):
         print url
         print mimeType
-        fileInsert = FileManager.FileInsert(self, url, mimeType)
+        fileInsert = FileManager.FileInsert(self, url, mimeType, proxy=self.config['proxy']['http'])
         fileInsert.start()
 
     def stop(self):

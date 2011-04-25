@@ -58,7 +58,7 @@ class MainWindow(QWidget):
 
         if self.nodeManagerConnected:
 
-            fileinfo = FileManager.checkFileForInsert(mimeData)
+            fileinfo = FileManager.checkFileForInsert(mimeData, proxy=self.config['proxy']['http'])
 
             if fileinfo:
                 self.dropZone.setPixmap(QPixmap('images/dropzone_ok.png'))
