@@ -78,21 +78,22 @@ class PutPaste(QThread):
         self.node = parent.node
 
     def run(self):
-        insert = self.putPaste(self.paste, self.insertcb, async=True)
+        keyType = self.nodeManager.config['warren']['pastebin_keytype']
+        insert = self.putPaste(self.paste, self.insertcb, async=True, keyType=keyType)
         self.emit(SIGNAL("pasteInsertMessage(QString)"),'Node is inserting text... Please wait')
         insert.wait()
 
-    def putPaste(self, qPaste, callback, async=True):
+    def putPaste(self, qPaste, callback, async=True, keyType='SSK@'):
         paste = unicode(qPaste)
         paste = paste.encode('utf-8')
-        insert = self.node.put(uri='SSK@',data=paste,async=async,name='pastebin',Verbosity=5,mimetype="text/plain; charset=utf-8",callback=callback,waituntilsent=True)
+        insert = self.node.put(uri=keyType,data=paste,async=async,name='pastebin',Verbosity=5,mimetype="text/plain; charset=utf-8",callback=callback,waituntilsent=True)
         return insert
 
     # TODO turn these messages in data messages and handle output formating in pastebin dialog
     def insertcb(self,val1,val2):
         if val1=='pending':
             if val2.get('header') == 'URIGenerated':
-                text = 'URIGenerated: ' + val2.get('URI') + '\nNode is inserting the SSK... Please wait.'
+                text = 'URIGenerated: ' + val2.get('URI') + '\nNode is inserting the key... Please wait.'
                 self.emit(SIGNAL("pasteInsertMessage(QString)"),text)
             elif val2.get('header') == 'SimpleProgress':
                 text = 'Finalized: ' + val2.get('FinalizedTotal')
