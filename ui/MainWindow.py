@@ -58,7 +58,8 @@ class MainWindow(QWidget):
 
         if self.nodeManagerConnected:
 
-            fileinfo = FileManager.checkFileForInsert(mimeData, proxy=self.config['proxy']['http'])
+            self.dropZone.setPixmap(QPixmap('images/dropzone_analyze.png'))
+            fileinfo = FileManager.checkFileForInsert(mimeData, proxy=self.config['proxy']['http']) # TODO: this is still blocking
 
             if fileinfo:
                 self.dropZone.setPixmap(QPixmap('images/dropzone_ok.png'))
