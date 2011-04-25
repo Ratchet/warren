@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'SettingsDialog.ui'
 #
-# Created: Mon Apr 25 16:18:00 2011
+# Created: Mon Apr 25 16:47:17 2011
 #      by: PyQt4 UI code generator 4.7.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -103,13 +103,9 @@ class Ui_SettingsDialog(object):
         self.file_key_type_box = QtGui.QComboBox(self.gridLayoutWidget_3)
         self.file_key_type_box.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.file_key_type_box.setObjectName("file_key_type_box")
-        self.file_key_type_box.addItem("")
-        self.file_key_type_box.addItem("")
         self.gridLayout_3.addWidget(self.file_key_type_box, 0, 1, 1, 1)
         self.pastebin_key_type_box = QtGui.QComboBox(self.gridLayoutWidget_3)
         self.pastebin_key_type_box.setObjectName("pastebin_key_type_box")
-        self.pastebin_key_type_box.addItem("")
-        self.pastebin_key_type_box.addItem("")
         self.gridLayout_3.addWidget(self.pastebin_key_type_box, 1, 1, 1, 1)
         self.tabWidget.addTab(self.warren_settings_tab, "")
 
@@ -131,9 +127,5 @@ class Ui_SettingsDialog(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.http_settings_tab), QtGui.QApplication.translate("SettingsDialog", "HTTP", None, QtGui.QApplication.UnicodeUTF8))
         self.file_key_type_label.setText(QtGui.QApplication.translate("SettingsDialog", "Insert files with this keytype", None, QtGui.QApplication.UnicodeUTF8))
         self.pastebin_key_type_label.setText(QtGui.QApplication.translate("SettingsDialog", "Insert Pastebin with this keytype", None, QtGui.QApplication.UnicodeUTF8))
-        self.file_key_type_box.setItemText(0, QtGui.QApplication.translate("SettingsDialog", "CHK@", None, QtGui.QApplication.UnicodeUTF8))
-        self.file_key_type_box.setItemText(1, QtGui.QApplication.translate("SettingsDialog", "SSK@", None, QtGui.QApplication.UnicodeUTF8))
-        self.pastebin_key_type_box.setItemText(0, QtGui.QApplication.translate("SettingsDialog", "CHK@", None, QtGui.QApplication.UnicodeUTF8))
-        self.pastebin_key_type_box.setItemText(1, QtGui.QApplication.translate("SettingsDialog", "SSK@", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.warren_settings_tab), QtGui.QApplication.translate("SettingsDialog", "Warren", None, QtGui.QApplication.UnicodeUTF8))
 
