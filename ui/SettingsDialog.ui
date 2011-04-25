@@ -189,6 +189,68 @@
      </layout>
     </widget>
    </widget>
+   <widget class="QWidget" name="warren_settings_tab">
+    <attribute name="title">
+     <string>Warren</string>
+    </attribute>
+    <widget class="QWidget" name="gridLayoutWidget_3">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>371</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="0" column="0">
+       <widget class="QLabel" name="file_key_type_label">
+        <property name="text">
+         <string>Insert files with this keytype</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="pastebin_key_type_label">
+        <property name="text">
+         <string>Insert Pastebin with this keytype</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="file_key_type_box">
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <item>
+         <property name="text">
+          <string>CHK@</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>SSK@</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QComboBox" name="pastebin_key_type_box">
+        <item>
+         <property name="text">
+          <string>CHK@</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>SSK@</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
   </widget>
  </widget>
  <resources/>

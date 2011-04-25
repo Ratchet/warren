@@ -1,4 +1,4 @@
-from PyQt4.QtGui import QWidget, QLabel, QHBoxLayout, QMenu, qApp, QPixmap
+from PyQt4.QtGui import QWidget, QLabel, QHBoxLayout, QMenu, qApp, QPixmap, QFrame
 from PyQt4.QtCore import Qt, SIGNAL
 from core import Config, NodeManager, FileManager
 from ui import Settings, Pastebin, DropZone
@@ -15,6 +15,8 @@ class MainWindow(QWidget):
         self.dropZone = DropZone.DropZone()
         self.dropZone.setMargin(0)
         self.dropZone.setPixmap(QPixmap('images/dropzone_nocon.png'))
+        # use a little frame until we have nice icons
+        self.dropZone.setFrameStyle(QFrame.Sunken | QFrame.StyledPanel)
         self.dropZone.dropped.connect(self.dropEvent)
         self.dropZone.entered.connect(self.enterEvent)
 
