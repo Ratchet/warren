@@ -86,7 +86,7 @@ class PutPaste(QThread):
     def putPaste(self, qPaste, callback, async=True, keyType='SSK@'):
         paste = unicode(qPaste)
         paste = paste.encode('utf-8')
-        insert = self.node.put(uri=keyType,data=paste,async=async,name='pastebin',Verbosity=5,mimetype="text/plain; charset=utf-8",callback=callback,waituntilsent=True)
+        insert = self.node.put(uri=keyType,data=paste,async=async,name='pastebin',Verbosity=5,mimetype="text/plain; charset=utf-8",callback=callback,waituntilsent=True,priority=2,realtime=True)
         return insert
 
     # TODO turn these messages in data messages and handle output formating in pastebin dialog
