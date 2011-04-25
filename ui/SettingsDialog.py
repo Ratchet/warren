@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'SettingsDialog.ui'
 #
-# Created: Sat Apr 23 13:37:36 2011
+# Created: Mon Apr 25 10:46:00 2011
 #      by: PyQt4 UI code generator 4.7.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -61,13 +61,32 @@ class Ui_SettingsDialog(object):
         self.testSettingsButton.setObjectName("testSettingsButton")
         self.gridLayout.addWidget(self.testSettingsButton, 2, 2, 1, 1)
         self.tabWidget.addTab(self.node_settings_tab, "")
-        self.fripe_settings_tab = QtGui.QWidget()
-        self.fripe_settings_tab.setObjectName("fripe_settings_tab")
-        self.label = QtGui.QLabel(self.fripe_settings_tab)
-        self.label.setGeometry(QtCore.QRect(10, 0, 381, 101))
-        self.label.setAlignment(QtCore.Qt.AlignCenter)
-        self.label.setObjectName("label")
-        self.tabWidget.addTab(self.fripe_settings_tab, "")
+        self.http_settings_tab = QtGui.QWidget()
+        self.http_settings_tab.setObjectName("http_settings_tab")
+        self.gridLayoutWidget_2 = QtGui.QWidget(self.http_settings_tab)
+        self.gridLayoutWidget_2.setGeometry(QtCore.QRect(10, 10, 381, 71))
+        self.gridLayoutWidget_2.setObjectName("gridLayoutWidget_2")
+        self.gridLayout_2 = QtGui.QGridLayout(self.gridLayoutWidget_2)
+        self.gridLayout_2.setObjectName("gridLayout_2")
+        self.proxy_host_edit = QtGui.QLineEdit(self.gridLayoutWidget_2)
+        self.proxy_host_edit.setText("")
+        self.proxy_host_edit.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.proxy_host_edit.setObjectName("proxy_host_edit")
+        self.gridLayout_2.addWidget(self.proxy_host_edit, 0, 1, 1, 1)
+        self.proxy_host_label = QtGui.QLabel(self.gridLayoutWidget_2)
+        self.proxy_host_label.setObjectName("proxy_host_label")
+        self.gridLayout_2.addWidget(self.proxy_host_label, 0, 2, 1, 1)
+        self.proxy_port_label = QtGui.QLabel(self.gridLayoutWidget_2)
+        self.proxy_port_label.setObjectName("proxy_port_label")
+        self.gridLayout_2.addWidget(self.proxy_port_label, 1, 2, 1, 1)
+        self.proxy_port_edit = QtGui.QSpinBox(self.gridLayoutWidget_2)
+        self.proxy_port_edit.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.proxy_port_edit.setMinimum(1025)
+        self.proxy_port_edit.setMaximum(65535)
+        self.proxy_port_edit.setProperty("value", 8118)
+        self.proxy_port_edit.setObjectName("proxy_port_edit")
+        self.gridLayout_2.addWidget(self.proxy_port_edit, 1, 1, 1, 1)
+        self.tabWidget.addTab(self.http_settings_tab, "")
 
         self.retranslateUi(SettingsDialog)
         self.tabWidget.setCurrentIndex(0)
@@ -82,6 +101,7 @@ class Ui_SettingsDialog(object):
         self.node_port_label.setText(QtGui.QApplication.translate("SettingsDialog", "FCP Port", None, QtGui.QApplication.UnicodeUTF8))
         self.testSettingsButton.setText(QtGui.QApplication.translate("SettingsDialog", "Test Settings", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.node_settings_tab), QtGui.QApplication.translate("SettingsDialog", "Node", None, QtGui.QApplication.UnicodeUTF8))
-        self.label.setText(QtGui.QApplication.translate("SettingsDialog", "Nothing to configure yet", None, QtGui.QApplication.UnicodeUTF8))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.fripe_settings_tab), QtGui.QApplication.translate("SettingsDialog", "Fripe", None, QtGui.QApplication.UnicodeUTF8))
+        self.proxy_host_label.setText(QtGui.QApplication.translate("SettingsDialog", "Proxy Host", None, QtGui.QApplication.UnicodeUTF8))
+        self.proxy_port_label.setText(QtGui.QApplication.translate("SettingsDialog", "Proxy Port", None, QtGui.QApplication.UnicodeUTF8))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.http_settings_tab), QtGui.QApplication.translate("SettingsDialog", "HTTP", None, QtGui.QApplication.UnicodeUTF8))
 

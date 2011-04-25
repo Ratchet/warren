@@ -132,25 +132,61 @@
      </layout>
     </widget>
    </widget>
-   <widget class="QWidget" name="fripe_settings_tab">
+   <widget class="QWidget" name="http_settings_tab">
     <attribute name="title">
-     <string>Fripe</string>
+     <string>HTTP</string>
     </attribute>
-    <widget class="QLabel" name="label">
+    <widget class="QWidget" name="gridLayoutWidget_2">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>0</y>
+       <y>10</y>
        <width>381</width>
-       <height>101</height>
+       <height>71</height>
       </rect>
      </property>
-     <property name="text">
-      <string>Nothing to configure yet</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="proxy_host_edit">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="proxy_host_label">
+        <property name="text">
+         <string>Proxy Host</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLabel" name="proxy_port_label">
+        <property name="text">
+         <string>Proxy Port</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QSpinBox" name="proxy_port_edit">
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="minimum">
+         <number>1025</number>
+        </property>
+        <property name="maximum">
+         <number>65535</number>
+        </property>
+        <property name="value">
+         <number>8118</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </widget>
   </widget>

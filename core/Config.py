@@ -1,9 +1,10 @@
 import sys, os, os.path
 from configobj import ConfigObj
 
-CONFIG_DEFAULTS = {'node':{'host':'127.0.0.1','fcp_port':9481}}
+CONFIG_DEFAULTS = {'node':{'host':'127.0.0.1','fcp_port':9481}, 'proxy':{'http':{'host':'','port':8118}}}
 
 #TODO options for priorities, separate for pastebin and file inserts
+#TODO options for keytaype for inserts
 
 class Config(ConfigObj):
 
