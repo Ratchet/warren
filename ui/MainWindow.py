@@ -1,7 +1,14 @@
 from PyQt4.QtGui import QWidget, QLabel, QHBoxLayout, QMenu, qApp, QPixmap, QFrame
 from PyQt4.QtCore import Qt, SIGNAL
-from core import Config, NodeManager, FileManager
-from ui import Settings, Pastebin, DropZone
+from warren.core import Config, NodeManager, FileManager
+from warren.ui import Settings, Pastebin, DropZone
+import sys, os
+
+def determine_path ():
+    root = __file__
+    if os.path.islink (root):
+        root = os.path.realpath (root)
+    return os.path.dirname (os.path.abspath (root))
 
 class MainWindow(QWidget):
     def __init__(self):
@@ -14,7 +21,8 @@ class MainWindow(QWidget):
         layout.setMargin(0)
         self.dropZone = DropZone.DropZone()
         self.dropZone.setMargin(0)
-        self.dropZone.setPixmap(QPixmap('images/dropzone_nocon.png'))
+        self.imagePath = determine_path()+'/../images/'
+        self.dropZone.setPixmap(QPixmap(self.imagePath+'dropzone_nocon.png'))
         # use a little frame until we have nice icons
         self.dropZone.setFrameStyle(QFrame.Sunken | QFrame.StyledPanel)
         self.dropZone.dropped.connect(self.dropEvent)
@@ -60,28 +68,28 @@ class MainWindow(QWidget):
 
         if self.nodeManagerConnected:
 
-            self.dropZone.setPixmap(QPixmap('images/dropzone_analyze.png'))
+            self.dropZone.setPixmap(QPixmap(self.imagePath+'dropzone_analyze.png'))
             fileinfo = FileManager.checkFileForInsert(mimeData, proxy=self.config['proxy']['http']) # TODO: this is still blocking
 
             if fileinfo:
-                self.dropZone.setPixmap(QPixmap('images/dropzone_ok.png'))
+                self.dropZone.setPixmap(QPixmap(self.imagePath+'dropzone_ok.png'))
                 self.dropData['accepted'] = True
                 self.dropData['url'] = fileinfo[0]
                 self.dropData['content-type'] = fileinfo[1]
             else:
-                self.dropZone.setPixmap(QPixmap('images/dropzone_rejected.png'))
+                self.dropZone.setPixmap(QPixmap(self.imagePath+'dropzone_rejected.png'))
 
     def dropEvent(self, mimeData = None):
 
         if not mimeData or not hasattr(mimeData, 'formats') or not self.nodeManagerConnected:
-            self.dropZone.setPixmap(QPixmap('images/dropzone.png')) # because it's leave event, too (mimeData=None)
+            self.dropZone.setPixmap(QPixmap(self.imagePath+'dropzone.png')) # because it's leave event, too (mimeData=None)
             self.dropData = {'accepted' : False, 'url' : None, 'content-type' : None}
             return
 
         if self.dropData['accepted']:
             self.nodeManager.insertFile(self.dropData['url'], self.dropData['content-type'])
 
-        self.dropZone.setPixmap(QPixmap('images/dropzone.png'))
+        self.dropZone.setPixmap(QPixmap(self.imagePath+'dropzone.png'))
 
     def mouseMoveEvent(self, event):
         if self.moving: self.move(event.globalPos()-self.offset)
@@ -96,11 +104,11 @@ class MainWindow(QWidget):
 
     def nodeConnected(self):
         self.nodeManagerConnected = True
-        self.dropZone.setPixmap(QPixmap('images/dropzone.png'))
+        self.dropZone.setPixmap(QPixmap(self.imagePath+'dropzone.png'))
 
     def nodeNotConnected(self):
         self.nodeManagerConnected = False
-        self.dropZone.setPixmap(QPixmap('images/dropzone_nocon.png'))
+        self.dropZone.setPixmap(QPixmap(self.imagePath+'dropzone_nocon.png'))
 
 
     def closeApp(self):
