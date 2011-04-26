@@ -52,7 +52,6 @@ class FileInsert(QThread):
                 if 'TestDDAComplete' in str(testDDA.items()):
                     testDDAResult = True
             except Exception, e:
-                print e
                 testDDAResult = False
 
             if testDDAResult:

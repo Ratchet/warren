@@ -95,12 +95,10 @@ class MainWindow(QWidget):
             self.moving = False
 
     def nodeConnected(self):
-        print "mainwindow nodeConnected()"
         self.nodeManagerConnected = True
         self.dropZone.setPixmap(QPixmap('images/dropzone.png'))
 
     def nodeNotConnected(self):
-        print "mainwindow nodeNotConnected()"
         self.nodeManagerConnected = False
         self.dropZone.setPixmap(QPixmap('images/dropzone_nocon.png'))
 

@@ -28,7 +28,6 @@ class Pastebin(QDialog):
         self.hide()
 
     def pasteFinished(self, result):
-        print "PASTE FINISHED: " + result
         if_dialog = InsertFinished(self,result)
         if_dialog.show()
         self.ui.plainTextEdit.clear()

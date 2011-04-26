@@ -12,23 +12,19 @@ class NodeManager(QThread):
         self.start()
 
     def run(self):
-        print "NodeManager thread starting"
         QThread.msleep(1000) # wait a second or sometimes signals can't get through right after startup
         self.connectNode()
         self.watchdog = NodeWatchdog(self)
         self.connect(self.watchdog, SIGNAL("nodeNotConnected()"), self.nodeNotConnected)
 
     def connectNode(self):
-        print "Node connection attempt"
         try:
-            self.node = FCPNode(name="FripeClient",host=self.config['node']['host'],port=int(self.config['node']['fcp_port']),verbosity=5)
+            self.node = FCPNode(name="FripeClient",host=self.config['node']['host'],port=int(self.config['node']['fcp_port']),verbosity=0)
             self.emit(SIGNAL("nodeConnected()"))
         except Exception, e:
-            print e
             self.node = None
 
     def nodeNotConnected(self):
-        print "node not connected"
         self.emit(SIGNAL("nodeConnectionLost()"))
         if self.node:
             self.node.shutdown()
@@ -37,7 +33,6 @@ class NodeManager(QThread):
 
     def pasteCanceled(self):
         if hasattr(self, 'pasteInsert'):
-            print "killing insert thread"
             # TODO cancel request in node, too (FCP message "RemoveRequest")
             self.pasteInsert.quit()
 
@@ -56,8 +51,6 @@ class NodeManager(QThread):
         self.emit(SIGNAL("inserterMessage(QString)"),QString(msg))
 
     def insertFile(self, url, mimeType):
-        print url
-        print mimeType
         fileInsert = FileManager.FileInsert(self, url, mimeType, proxy=self.config['proxy']['http'])
         fileInsert.start()
 
@@ -123,9 +116,7 @@ class NodeWatchdog(QThread):
         while(True):
             QThread.msleep(5000)
             isNodeRunning = self.nodeManager.node is not None and self.nodeManager.node.running
-            print "NodeWatchdog heartbeat isnoderunning: ", str(isNodeRunning)
             isNodeAlive = self.nodeManager.node is not None and self.nodeManager.node.nodeIsAlive
-            print "NodeWatchdog heartbeat isAlive: ", str(isNodeAlive)
             if not isNodeRunning or not isNodeAlive:
                 self.emit(SIGNAL("nodeNotConnected()"))
 

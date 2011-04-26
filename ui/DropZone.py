@@ -16,7 +16,6 @@ class DropZone(QtGui.QLabel):
         self.clear()
 
     def dragEnterEvent(self, event):
-        print "drag enter"
         self.entered.emit(event.mimeData())
         event.acceptProposedAction()
 

@@ -18,7 +18,6 @@ class Settings(QDialog):
         self.ui.pastebin_key_type_box.addItem('SSK@')
         self.ui.pastebin_key_type_box.addItem('CHK@')
         self.config = config
-        print config
         self.populate_fields()
 
     def populate_fields(self):
