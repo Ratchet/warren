@@ -1,5 +1,7 @@
 from fcp import FCPNode
 from PyQt4.QtCore import QThread, SIGNAL, QString
+from PyQt4.QtGui import QDialog
+from warren.ui.FileSent import Ui_fileDroppedDialog
 import FileManager
 
 class NodeManager(QThread):
@@ -53,12 +55,35 @@ class NodeManager(QThread):
     def insertFile(self, url, mimeType):
         fileInsert = FileManager.FileInsert(self, url, mimeType, proxy=self.config['proxy']['http'])
         fileInsert.start()
+        show = self.config['warren'].get('show_file_dropped_dialog','True') #TODO make real defaults in configobj, so we can use as_bool()
+        if show=='True':
+            self.dropped = FileDropped(self)
+            self.dropped.show()
 
     def stop(self):
         self.watchdog.quit()
         if self.node:
             self.node.shutdown()
         self.quit()
+
+class FileDropped(QDialog):
+
+    def __init__(self, nodeManager):
+        QDialog.__init__(self, None)
+        self.config = nodeManager.config
+        self.ui = Ui_fileDroppedDialog()
+        self.ui.setupUi(self)
+        self.ui.buttonBox.accepted.connect(self.accept)
+
+    def accept(self):
+        if self.ui.checkBox.isChecked():
+            self.config['warren']['show_file_dropped_dialog']=False
+            self.config.write()
+        self.close()
+
+    def reject(self):
+        self.hide()
+        self.close()
 
 class PutPaste(QThread):
     """ use own thread because we can't send QT signals
