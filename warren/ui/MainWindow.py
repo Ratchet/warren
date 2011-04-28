@@ -5,10 +5,13 @@ from warren.ui import Settings, Pastebin, DropZone
 import sys, os
 
 def determine_path ():
-    root = __file__
-    if os.path.islink (root):
-        root = os.path.realpath (root)
-    return os.path.dirname (os.path.abspath (root))
+    if os.environ.get('_MEIPASS2'):
+        return os.environ['_MEIPASS2']
+    else:
+        root = __file__
+        if os.path.islink (root):
+            root = os.path.realpath (root)
+        return os.path.dirname (os.path.abspath (root))+'/../images/'
 
 class MainWindow(QWidget):
     def __init__(self):
@@ -21,7 +24,7 @@ class MainWindow(QWidget):
         layout.setMargin(0)
         self.dropZone = DropZone.DropZone()
         self.dropZone.setMargin(0)
-        self.imagePath = determine_path()+'/../images/'
+        self.imagePath = determine_path()
         self.dropZone.setPixmap(QPixmap(self.imagePath+'dropzone_nocon.png'))
         # use a little frame until we have nice icons
         self.dropZone.setFrameStyle(QFrame.Sunken | QFrame.StyledPanel)
