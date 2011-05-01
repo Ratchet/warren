@@ -6,6 +6,8 @@ from warren.ui.PasteInsert import Ui_PasteInsertDialog
 import FileManager
 import os.path
 
+SECLEVELS = {'LOW':0, 'NORMAL':1, 'HIGH':2, 'MAXIMUM':3}
+
 class NodeManager(QThread):
 
     pasteCanceledMessage = pyqtSignal()
@@ -35,7 +37,7 @@ class NodeManager(QThread):
 
     def updateNodeConfigValues(self):
         nconfig = self.node.getconfig(async=False,WithCurrent=True,WithExpertFlag=True)
-        self.physicalSeclevel = nconfig['current.security-levels.physicalThreatLevel']
+        self.physicalSeclevel = SECLEVELS[nconfig['current.security-levels.physicalThreatLevel']]
         self.nodeDownloadDir = nconfig['current.node.downloadsDir']
         if not os.path.isabs(self.nodeDownloadDir):
             self.nodeDownloadDir = os.path.join(nconfig['current.node.cfgDir'], self.nodeDownloadDir)
