@@ -4,6 +4,7 @@ from PyQt4.QtGui import QDialog, QClipboard, qApp
 from warren.ui.FileSent import Ui_fileDroppedDialog
 from warren.ui.PasteInsert import Ui_PasteInsertDialog
 import FileManager
+import os.path
 
 class NodeManager(QThread):
 
@@ -14,6 +15,8 @@ class NodeManager(QThread):
         self.config = config
         self.node = None
         self.standby = True
+        self.physicalSeclevel = None
+        self.nodeDownloadDir = None
         self.start()
 
     def run(self):
@@ -25,9 +28,17 @@ class NodeManager(QThread):
     def connectNode(self):
         try:
             self.node = FCPNode(name="FripeClient",host=self.config['node']['host'],port=int(self.config['node']['fcp_port']),verbosity=0)
+            self.updateNodeConfigValues()
             self.emit(SIGNAL("nodeConnected()"))
         except Exception, e:
             self.node = None
+
+    def updateNodeConfigValues(self):
+        nconfig = self.node.getconfig(async=False,WithCurrent=True,WithExpertFlag=True)
+        self.physicalSeclevel = nconfig['current.security-levels.physicalThreatLevel']
+        self.nodeDownloadDir = nconfig['current.node.downloadsDir']
+        if not os.path.isabs(self.nodeDownloadDir):
+            self.nodeDownloadDir = os.path.join(nconfig['current.node.cfgDir'], self.nodeDownloadDir)
 
     def nodeNotConnected(self):
         self.emit(SIGNAL("nodeConnectionLost()"))
