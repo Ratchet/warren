@@ -52,12 +52,12 @@ class NodeManager(QThread):
         self.pasteInsert.message.connect(self.pasteInsertDialog.messageReceived)
 
         self.pasteInsertDialog.ui.buttonBox.rejected.connect(self.pasteCanceled)
-        self.pasteInsertDialog.pasteFinished.connect(self.pasteFinished)
+#        self.pasteInsertDialog.pasteFinished.connect(self.pasteFinished)
 
         self.pasteInsert.start()
 
-    def pasteFinished(self, result):
-        self.pasteInsert.close()
+#    def pasteFinished(self):
+#        self.pasteInsert.close()
 
     def pasteMessageForwarder(self, msg):
         self.emit(SIGNAL("inserterMessage(QString)"),QString(msg))
@@ -78,7 +78,7 @@ class NodeManager(QThread):
 
 class PasteInsert(QDialog):
 
-    pasteFinished = pyqtSignal(object)
+    pasteFinished = pyqtSignal()
 
     def __init__(self):
         QDialog.__init__(self, None)

@@ -8,6 +8,7 @@ CONFIG_DEFAULTS = {'node' : {'host':'127.0.0.1','fcp_port':9481},
                    }
 
 #TODO options for priorities, separate for pastebin and file inserts
+#TODO make real configobj default values and config validator
 
 class Config(ConfigObj):
 
