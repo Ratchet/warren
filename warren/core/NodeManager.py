@@ -78,8 +78,8 @@ class NodeManager(QThread):
     def insertFile(self, url, mimeType):
         fileInsert = FileManager.FileInsert(self, url, mimeType, proxy=self.config['proxy']['http'])
         fileInsert.start()
-        show = self.config['warren'].get('show_file_dropped_dialog','True') #TODO make real defaults in configobj, so we can use as_bool()
-        if show=='True':
+        showTip = self.config['warren'].as_bool('show_file_dropped_dialog')
+        if showTip:
             self.dropped = FileDropped(self)
             self.dropped.show()
 

@@ -4,11 +4,10 @@ from configobj import ConfigObj
 CONFIG_DEFAULTS = {'node' : {'host':'127.0.0.1','fcp_port':9481},
                    'proxy' : {'http':{'host':'','port':8118}},
                    'warren' : {'file_keytype':'SSK@', 'pastebin_keytype':'SSK@',
-                               'show_file_dropped_dialog':True}
+                               'show_file_dropped_dialog':True},
                    }
 
 #TODO options for priorities, separate for pastebin and file inserts
-#TODO make real configobj default values and config validator
 
 class Config(ConfigObj):
 
@@ -29,3 +28,13 @@ class Config(ConfigObj):
             self.write()
         else:
             self.reload()
+            for section, value in CONFIG_DEFAULTS.iteritems():
+                if not self.get(section):
+                    self[section] = value
+                    continue
+                if type(value) == type(dict()):
+                    for subsection, subvalue in value.iteritems():
+                        if not self[section].get(subsection):
+                            self[section][subsection] = subvalue
+
+
