@@ -31,6 +31,8 @@ class MainWindow(QWidget):
         self.dropZone.dropped.connect(self.dropEvent)
         self.dropZone.entered.connect(self.enterEvent)
 
+        self.keepOnTop = False
+
         layout.addWidget(self.dropZone)
         self.setLayout(layout)
         self.setMouseTracking(True)
@@ -51,9 +53,15 @@ class MainWindow(QWidget):
 
     def contextMenuEvent(self, event):
 
+        if self.keepOnTop:
+            self.keepOnTopMenuText = "Don't keep icon on top"
+        else:
+            self.keepOnTopMenuText = 'Keep icon on top'
         menu = QMenu(self)
         pastebinAction = menu.addAction("Pastebin")
         settingsAction = menu.addAction("Settings")
+        menu.addSeparator()
+        keepOnTopAction = menu.addAction(self.keepOnTopMenuText)
         menu.addSeparator()
         quitAction = menu.addAction("Quit")
         action = menu.exec_(self.mapToGlobal(event.pos()))
@@ -63,6 +71,15 @@ class MainWindow(QWidget):
             self.settings.show()
         if action == pastebinAction:
             self.pastebin.show()
+        if action == keepOnTopAction:
+            if self.keepOnTop:
+                self.keepOnTop = False
+                self.setWindowFlags(self.windowFlags() & ~Qt.WindowStaysOnTopHint)
+                self.show()
+            else:
+                self.keepOnTop = True
+                self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
+                self.show()
 
     def enterEvent(self, mimeData = None):
 
