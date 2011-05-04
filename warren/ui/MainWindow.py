@@ -18,7 +18,7 @@ class MainWindow(QWidget):
         super(QWidget, self).__init__()
 
         #TODO "keep on top" window option
-        self.setWindowFlags(self.windowFlags() | Qt.FramelessWindowHint)
+        self.setWindowFlags(Qt.FramelessWindowHint)
         self.setWindowOpacity(1.0)
         layout = QHBoxLayout()
         layout.setMargin(0)
