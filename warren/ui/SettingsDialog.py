@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'SettingsDialog.ui'
+# Form implementation generated from reading ui file 'warren/ui/SettingsDialog.ui'
 #
-# Created: Mon Apr 25 16:47:17 2011
+# Created: Thu May  5 17:53:47 2011
 #      by: PyQt4 UI code generator 4.7.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -56,10 +56,20 @@ class Ui_SettingsDialog(object):
         self.gridLayout.addWidget(self.node_fcp_port_edit, 1, 1, 1, 1)
         self.testResultsEdit = QtGui.QTextEdit(self.gridLayoutWidget)
         self.testResultsEdit.setObjectName("testResultsEdit")
-        self.gridLayout.addWidget(self.testResultsEdit, 2, 1, 1, 1)
+        self.gridLayout.addWidget(self.testResultsEdit, 3, 1, 1, 1)
         self.testSettingsButton = QtGui.QPushButton(self.gridLayoutWidget)
         self.testSettingsButton.setObjectName("testSettingsButton")
-        self.gridLayout.addWidget(self.testSettingsButton, 2, 2, 1, 1)
+        self.gridLayout.addWidget(self.testSettingsButton, 3, 2, 1, 1)
+        self.node_http_port_edit = QtGui.QSpinBox(self.gridLayoutWidget)
+        self.node_http_port_edit.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.node_http_port_edit.setMinimum(1025)
+        self.node_http_port_edit.setMaximum(65535)
+        self.node_http_port_edit.setProperty("value", 8888)
+        self.node_http_port_edit.setObjectName("node_http_port_edit")
+        self.gridLayout.addWidget(self.node_http_port_edit, 2, 1, 1, 1)
+        self.fproxy_port_label = QtGui.QLabel(self.gridLayoutWidget)
+        self.fproxy_port_label.setObjectName("fproxy_port_label")
+        self.gridLayout.addWidget(self.fproxy_port_label, 2, 2, 1, 1)
         self.tabWidget.addTab(self.node_settings_tab, "")
         self.http_settings_tab = QtGui.QWidget()
         self.http_settings_tab.setObjectName("http_settings_tab")
@@ -90,7 +100,7 @@ class Ui_SettingsDialog(object):
         self.warren_settings_tab = QtGui.QWidget()
         self.warren_settings_tab.setObjectName("warren_settings_tab")
         self.gridLayoutWidget_3 = QtGui.QWidget(self.warren_settings_tab)
-        self.gridLayoutWidget_3.setGeometry(QtCore.QRect(10, 10, 371, 61))
+        self.gridLayoutWidget_3.setGeometry(QtCore.QRect(10, 10, 371, 171))
         self.gridLayoutWidget_3.setObjectName("gridLayoutWidget_3")
         self.gridLayout_3 = QtGui.QGridLayout(self.gridLayoutWidget_3)
         self.gridLayout_3.setObjectName("gridLayout_3")
@@ -107,6 +117,22 @@ class Ui_SettingsDialog(object):
         self.pastebin_key_type_box = QtGui.QComboBox(self.gridLayoutWidget_3)
         self.pastebin_key_type_box.setObjectName("pastebin_key_type_box")
         self.gridLayout_3.addWidget(self.pastebin_key_type_box, 1, 1, 1, 1)
+        self.browser_command_label = QtGui.QLabel(self.gridLayoutWidget_3)
+        self.browser_command_label.setObjectName("browser_command_label")
+        self.gridLayout_3.addWidget(self.browser_command_label, 2, 0, 1, 1)
+        self.browser_command = QtGui.QLineEdit(self.gridLayoutWidget_3)
+        self.browser_command.setObjectName("browser_command")
+        self.gridLayout_3.addWidget(self.browser_command, 2, 1, 1, 1)
+        self.max_clipboard_keys_label = QtGui.QLabel(self.gridLayoutWidget_3)
+        self.max_clipboard_keys_label.setObjectName("max_clipboard_keys_label")
+        self.gridLayout_3.addWidget(self.max_clipboard_keys_label, 3, 0, 1, 1)
+        self.max_clipboard_keys = QtGui.QSpinBox(self.gridLayoutWidget_3)
+        self.max_clipboard_keys.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.max_clipboard_keys.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.max_clipboard_keys.setMinimum(1)
+        self.max_clipboard_keys.setProperty("value", 5)
+        self.max_clipboard_keys.setObjectName("max_clipboard_keys")
+        self.gridLayout_3.addWidget(self.max_clipboard_keys, 3, 1, 1, 1)
         self.tabWidget.addTab(self.warren_settings_tab, "")
 
         self.retranslateUi(SettingsDialog)
@@ -121,11 +147,15 @@ class Ui_SettingsDialog(object):
         self.node_host_label.setText(QtGui.QApplication.translate("SettingsDialog", "Host", None, QtGui.QApplication.UnicodeUTF8))
         self.node_port_label.setText(QtGui.QApplication.translate("SettingsDialog", "FCP Port", None, QtGui.QApplication.UnicodeUTF8))
         self.testSettingsButton.setText(QtGui.QApplication.translate("SettingsDialog", "Test Settings", None, QtGui.QApplication.UnicodeUTF8))
+        self.fproxy_port_label.setText(QtGui.QApplication.translate("SettingsDialog", "Fproxy Port", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.node_settings_tab), QtGui.QApplication.translate("SettingsDialog", "Node", None, QtGui.QApplication.UnicodeUTF8))
         self.proxy_host_label.setText(QtGui.QApplication.translate("SettingsDialog", "Proxy Host", None, QtGui.QApplication.UnicodeUTF8))
         self.proxy_port_label.setText(QtGui.QApplication.translate("SettingsDialog", "Proxy Port", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.http_settings_tab), QtGui.QApplication.translate("SettingsDialog", "HTTP", None, QtGui.QApplication.UnicodeUTF8))
         self.file_key_type_label.setText(QtGui.QApplication.translate("SettingsDialog", "Insert files with this keytype", None, QtGui.QApplication.UnicodeUTF8))
         self.pastebin_key_type_label.setText(QtGui.QApplication.translate("SettingsDialog", "Insert Pastebin with this keytype", None, QtGui.QApplication.UnicodeUTF8))
+        self.browser_command_label.setText(QtGui.QApplication.translate("SettingsDialog", "Browser command\n"
+"(empty for system default)", None, QtGui.QApplication.UnicodeUTF8))
+        self.max_clipboard_keys_label.setText(QtGui.QApplication.translate("SettingsDialog", "Max freenet keys in menu", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.warren_settings_tab), QtGui.QApplication.translate("SettingsDialog", "Warren", None, QtGui.QApplication.UnicodeUTF8))
 

@@ -1,9 +1,11 @@
 import sys, os, os.path
 from configobj import ConfigObj
 
-CONFIG_DEFAULTS = {'node' : {'host':'127.0.0.1','fcp_port':9481},
+CONFIG_DEFAULTS = {'node' : {'host':'127.0.0.1','fcp_port':9481, 'fproxy_port':8888},
                    'proxy' : {'http':{'host':'','port':8118}},
                    'warren' : {'file_keytype':'SSK@', 'pastebin_keytype':'SSK@',
+                               'browser_command' : '',
+                               'max_clipboard_keys' : 5,
                                'show_file_dropped_dialog':True},
                    }
 

@@ -19,6 +19,7 @@ class NodeManager(QThread):
         self.standby = True
         self.physicalSeclevel = None
         self.nodeDownloadDir = None
+        self.downloadDDA = False
         self.start()
 
     def run(self):
@@ -29,7 +30,7 @@ class NodeManager(QThread):
 
     def connectNode(self):
         try:
-            self.node = FCPNode(name="FripeClient",host=self.config['node']['host'],port=int(self.config['node']['fcp_port']),verbosity=0)
+            self.node = FCPNode(name="WarrenClient",host=self.config['node']['host'],port=int(self.config['node']['fcp_port']),verbosity=0)
             self.updateNodeConfigValues()
             self.emit(SIGNAL("nodeConnected()"))
         except Exception, e:
@@ -39,6 +40,7 @@ class NodeManager(QThread):
         nconfig = self.node.getconfig(async=False,WithCurrent=True,WithExpertFlag=True)
         self.physicalSeclevel = SECLEVELS[nconfig['current.security-levels.physicalThreatLevel']]
         self.nodeDownloadDir = nconfig['current.node.downloadsDir']
+        self.downloadDDA = nconfig['expertFlag.fcp.assumeDownloadDDAIsAllowed']=='true'
         if not os.path.isabs(self.nodeDownloadDir):
             self.nodeDownloadDir = os.path.join(nconfig['current.node.cfgDir'], self.nodeDownloadDir)
 
@@ -48,6 +50,30 @@ class NodeManager(QThread):
             self.node.shutdown()
             self.node = None
         self.connectNode()
+
+    def putKeyOnQueue(self, key):
+        if self.physicalSeclevel > 0:
+            testDDAResult = False
+        else:
+            if self.downloadDDA:
+                testDDAResult = True
+            else:
+                testDDAResult = False
+                try:
+                    testDDA = self.node.testDDA(async=False, Directory=self.nodeDownloadDir, WantWriteDirectory=True, timeout=5)
+
+                    if 'TestDDAComplete' in str(testDDA.items()) and "'WriteDirectoryAllowed', 'true'" in str(testDDA.items()): #TODO check for the real keys
+                        testDDAResult = True
+                except Exception, e:
+                    testDDAResult = False
+
+        if testDDAResult:
+            filename = os.path.join(self.nodeDownloadDir, key.split('/')[-1])
+            self.node.get(key,async=True, Global=True, persistence='forever',priority=4, id='Warren:'+key.split('/')[-1], file=filename)
+        else:
+            self.node.get(key,async=True, Global=True, persistence='forever',priority=4, id='Warren:'+key.split('/')[-1])
+
+
 
     def pasteCanceled(self):
         if hasattr(self, 'pasteInsert'):
@@ -65,12 +91,9 @@ class NodeManager(QThread):
         self.pasteInsert.message.connect(self.pasteInsertDialog.messageReceived)
 
         self.pasteInsertDialog.ui.buttonBox.rejected.connect(self.pasteCanceled)
-#        self.pasteInsertDialog.pasteFinished.connect(self.pasteFinished)
 
         self.pasteInsert.start()
 
-#    def pasteFinished(self):
-#        self.pasteInsert.close()
 
     def pasteMessageForwarder(self, msg):
         self.emit(SIGNAL("inserterMessage(QString)"),QString(msg))

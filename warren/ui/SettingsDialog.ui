@@ -119,13 +119,36 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
+      <item row="3" column="1">
        <widget class="QTextEdit" name="testResultsEdit"/>
       </item>
-      <item row="2" column="2">
+      <item row="3" column="2">
        <widget class="QPushButton" name="testSettingsButton">
         <property name="text">
          <string>Test Settings</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QSpinBox" name="node_http_port_edit">
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="minimum">
+         <number>1025</number>
+        </property>
+        <property name="maximum">
+         <number>65535</number>
+        </property>
+        <property name="value">
+         <number>8888</number>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QLabel" name="fproxy_port_label">
+        <property name="text">
+         <string>Fproxy Port</string>
         </property>
        </widget>
       </item>
@@ -199,7 +222,7 @@
        <x>10</x>
        <y>10</y>
        <width>371</width>
-       <height>61</height>
+       <height>171</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout_3">
@@ -226,6 +249,40 @@
       </item>
       <item row="1" column="1">
        <widget class="QComboBox" name="pastebin_key_type_box"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="browser_command_label">
+        <property name="text">
+         <string>Browser command
+(empty for system default)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="browser_command"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="max_clipboard_keys_label">
+        <property name="text">
+         <string>Max freenet keys in menu</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QSpinBox" name="max_clipboard_keys">
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="value">
+         <number>5</number>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>

@@ -1,7 +1,7 @@
-from PyQt4.QtGui import QWidget, QLabel, QHBoxLayout, QMenu, qApp, QPixmap, QFrame
+from PyQt4.QtGui import QWidget, QLabel, QHBoxLayout, QMenu, qApp, QPixmap, QFrame, QClipboard, QContextMenuEvent
 from PyQt4.QtCore import Qt, SIGNAL
-from warren.core import Config, NodeManager, FileManager
-from warren.ui import Settings, Pastebin, DropZone
+from warren.core import Config, NodeManager, FileManager, Browser
+from warren.ui import Settings, Pastebin, DropZone, Clipboard
 import sys, os
 
 def determine_path ():
@@ -27,7 +27,7 @@ class MainWindow(QWidget):
         self.imagePath = determine_path()
         self.dropZone.setPixmap(QPixmap(self.imagePath+'dropzone_nocon.png'))
         # use a little frame until we have nice icons
-        self.dropZone.setFrameStyle(QFrame.Sunken | QFrame.StyledPanel)
+#        self.dropZone.setFrameStyle(QFrame.Sunken | QFrame.StyledPanel)
         self.dropZone.dropped.connect(self.dropEvent)
         self.dropZone.entered.connect(self.enterEvent)
 
@@ -37,6 +37,11 @@ class MainWindow(QWidget):
         self.setLayout(layout)
         self.setMouseTracking(True)
         self.moving = False
+
+        self.clipboard = Clipboard.Clipboard(self)
+        self.clipboard.clipboardKey.connect(self.clipboardNewKey)
+        self.clipboardKeys = list()
+        self.clipboardKey = None
 
         self.nodeManagerConnected = False
         self.dropData = {'accepted' : False, 'url' : None, 'content-type' : None}
@@ -51,6 +56,8 @@ class MainWindow(QWidget):
         self.connect(self.pastebin, SIGNAL("newPaste(QString)"), self.nodeManager.newPaste)
         self.connect(self.nodeManager, SIGNAL("pasteFinished()"), self.pastebin.reject)
 
+        self.browser = Browser.Browser(self.config)
+
     def contextMenuEvent(self, event):
 
         if self.keepOnTop:
@@ -59,9 +66,31 @@ class MainWindow(QWidget):
             self.keepOnTopMenuText = 'Keep icon on top'
         menu = QMenu(self)
         pastebinAction = menu.addAction("Pastebin")
-        settingsAction = menu.addAction("Settings")
+        menu.addSeparator()
+
+        if len(self.clipboardKeys)>0:
+            downloadMenu = QMenu('Put on download queue', self)
+            for idx,key in enumerate(self.clipboardKeys):
+                label = key[0]+'@'+key[1][:7]+'...'+key[1][-20:]
+                mItem = downloadMenu.addAction(label)
+                receiver = lambda taskType=idx:self.dlAction(taskType)
+                self.connect(mItem, SIGNAL('triggered()'), receiver)
+                downloadMenu.addAction(mItem)
+            menu.addMenu(downloadMenu)
+
+            browserMenu = QMenu('Open in Browser', self)
+            for idx,key in enumerate(self.clipboardKeys):
+                label = key[0]+'@'+key[1][:7]+'...'+key[1][-14:]
+                bItem = browserMenu.addAction(label)
+                receiver = lambda taskType=idx:self.brAction(taskType)
+                self.connect(bItem, SIGNAL('triggered()'), receiver)
+                browserMenu.addAction(bItem)
+            menu.addMenu(browserMenu)
+
+
         menu.addSeparator()
         keepOnTopAction = menu.addAction(self.keepOnTopMenuText)
+        settingsAction = menu.addAction("Settings")
         menu.addSeparator()
         quitAction = menu.addAction("Quit")
         action = menu.exec_(self.mapToGlobal(event.pos()))
@@ -80,6 +109,32 @@ class MainWindow(QWidget):
                 self.keepOnTop = True
                 self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
                 self.show()
+
+    def dlAction(self,menuIdx):
+
+        key = self.clipboardKeys[menuIdx]
+
+        # put last active key to top of list
+        tmp = self.clipboardKeys.pop(menuIdx)
+        self.clipboardKeys.insert(0,tmp)
+        self.nodeManager.putKeyOnQueue(key[0]+'@'+key[1])
+
+    def brAction(self,menuIdx):
+
+        key = self.clipboardKeys[menuIdx]
+
+        # put last active key to top of list
+        tmp = self.clipboardKeys.pop(menuIdx)
+        self.clipboardKeys.insert(0,tmp)
+        self.browser.openKeyInBrowser(key[0]+'@'+key[1])
+
+
+    def clipboardNewKey(self,keys):
+        for key in keys:
+            if key not in self.clipboardKeys:
+                if len(self.clipboardKeys) >= self.config['warren']['max_clipboard_keys']:
+                    self.clipboardKeys.pop(-1)
+                self.clipboardKeys.insert(0,key)
 
     def enterEvent(self, mimeData = None):
 

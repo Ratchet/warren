@@ -49,7 +49,7 @@ class FileInsert(QThread):
             try:
                 directory = os.path.split(plainUrl)[0]
                 testDDA = self.nodeManager.node.testDDA(async=False, Directory=directory, WantReadDirectory=True, timeout=5)
-                if 'TestDDAComplete' in str(testDDA.items()):
+                if 'TestDDAComplete' in str(testDDA.items()): #TODO check for the real keys
                     testDDAResult = True
             except Exception, e:
                 testDDAResult = False
