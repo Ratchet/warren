@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'warren/ui/SettingsDialog.ui'
 #
-# Created: Thu May  5 17:53:47 2011
-#      by: PyQt4 UI code generator 4.7.3
+# Created: Fri May  6 10:21:05 2011
+#      by: PyQt4 UI code generator 4.7.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -100,7 +100,7 @@ class Ui_SettingsDialog(object):
         self.warren_settings_tab = QtGui.QWidget()
         self.warren_settings_tab.setObjectName("warren_settings_tab")
         self.gridLayoutWidget_3 = QtGui.QWidget(self.warren_settings_tab)
-        self.gridLayoutWidget_3.setGeometry(QtCore.QRect(10, 10, 371, 171))
+        self.gridLayoutWidget_3.setGeometry(QtCore.QRect(10, 10, 371, 181))
         self.gridLayoutWidget_3.setObjectName("gridLayoutWidget_3")
         self.gridLayout_3 = QtGui.QGridLayout(self.gridLayoutWidget_3)
         self.gridLayout_3.setObjectName("gridLayout_3")
@@ -133,6 +133,13 @@ class Ui_SettingsDialog(object):
         self.max_clipboard_keys.setProperty("value", 5)
         self.max_clipboard_keys.setObjectName("max_clipboard_keys")
         self.gridLayout_3.addWidget(self.max_clipboard_keys, 3, 1, 1, 1)
+        self.start_with_on_top_label = QtGui.QLabel(self.gridLayoutWidget_3)
+        self.start_with_on_top_label.setObjectName("start_with_on_top_label")
+        self.gridLayout_3.addWidget(self.start_with_on_top_label, 4, 0, 1, 1)
+        self.start_with_on_top = QtGui.QCheckBox(self.gridLayoutWidget_3)
+        self.start_with_on_top.setText("")
+        self.start_with_on_top.setObjectName("start_with_on_top")
+        self.gridLayout_3.addWidget(self.start_with_on_top, 4, 1, 1, 1)
         self.tabWidget.addTab(self.warren_settings_tab, "")
 
         self.retranslateUi(SettingsDialog)
@@ -157,5 +164,6 @@ class Ui_SettingsDialog(object):
         self.browser_command_label.setText(QtGui.QApplication.translate("SettingsDialog", "Browser command\n"
 "(empty for system default)", None, QtGui.QApplication.UnicodeUTF8))
         self.max_clipboard_keys_label.setText(QtGui.QApplication.translate("SettingsDialog", "Max freenet keys in menu", None, QtGui.QApplication.UnicodeUTF8))
+        self.start_with_on_top_label.setText(QtGui.QApplication.translate("SettingsDialog", "Start with \'Keep on top\' active", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.warren_settings_tab), QtGui.QApplication.translate("SettingsDialog", "Warren", None, QtGui.QApplication.UnicodeUTF8))
 

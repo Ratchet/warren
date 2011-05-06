@@ -222,7 +222,7 @@
        <x>10</x>
        <y>10</y>
        <width>371</width>
-       <height>171</height>
+       <height>181</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout_3">
@@ -281,6 +281,20 @@
         </property>
         <property name="value">
          <number>5</number>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="start_with_on_top_label">
+        <property name="text">
+         <string>Start with 'Keep on top' active</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QCheckBox" name="start_with_on_top">
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </item>

@@ -17,7 +17,6 @@ class MainWindow(QWidget):
     def __init__(self):
         super(QWidget, self).__init__()
 
-        #TODO "keep on top" window option
         self.setWindowFlags(Qt.FramelessWindowHint)
         self.setWindowOpacity(1.0)
         layout = QHBoxLayout()
@@ -31,7 +30,6 @@ class MainWindow(QWidget):
         self.dropZone.dropped.connect(self.dropEvent)
         self.dropZone.entered.connect(self.enterEvent)
 
-        self.keepOnTop = False
 
         layout.addWidget(self.dropZone)
         self.setLayout(layout)
@@ -50,6 +48,7 @@ class MainWindow(QWidget):
         self.settings = Settings.Settings(self.config)
         self.pastebin = Pastebin.Pastebin()
         self.nodeManager = NodeManager.NodeManager(self.config)
+        self.setKeepOnTop(self.config['warren'].as_bool('start_on_top'))
         self.connect(self.nodeManager, SIGNAL("nodeConnected()"), self.nodeConnected)
         self.connect(self.nodeManager, SIGNAL("nodeConnectionLost()"), self.nodeNotConnected)
         self.connect(self.nodeManager, SIGNAL("pasteCanceledMessage()"), self.pastebin.reject)
@@ -102,13 +101,19 @@ class MainWindow(QWidget):
             self.pastebin.show()
         if action == keepOnTopAction:
             if self.keepOnTop:
-                self.keepOnTop = False
-                self.setWindowFlags(self.windowFlags() & ~Qt.WindowStaysOnTopHint)
-                self.show()
+                self.setKeepOnTop(False)
             else:
-                self.keepOnTop = True
-                self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
-                self.show()
+                self.setKeepOnTop(True)
+
+    def setKeepOnTop(self,keepOnTop):
+        self.keepOnTop = keepOnTop
+        if not keepOnTop:
+            self.setWindowFlags(self.windowFlags() & ~Qt.WindowStaysOnTopHint)
+            self.show()
+        else:
+            self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
+            self.show()
+
 
     def dlAction(self,menuIdx):
 

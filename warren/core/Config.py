@@ -6,6 +6,7 @@ CONFIG_DEFAULTS = {'node' : {'host':'127.0.0.1','fcp_port':9481, 'fproxy_port':8
                    'warren' : {'file_keytype':'SSK@', 'pastebin_keytype':'SSK@',
                                'browser_command' : '',
                                'max_clipboard_keys' : 5,
+                               'start_on_top' : False,
                                'show_file_dropped_dialog':True},
                    }
 

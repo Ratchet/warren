@@ -28,6 +28,7 @@ class Settings(QDialog):
         self.ui.proxy_port_edit.setProperty("value", self.config['proxy']['http']['port'])
         self.ui.browser_command.setText(self.config['warren']['browser_command'])
         self.ui.max_clipboard_keys.setProperty("value", self.config['warren']['max_clipboard_keys'])
+        self.ui.start_with_on_top.setChecked(self.config['warren'].as_bool('start_on_top'))
         if self.config['warren']['pastebin_keytype']=='SSK@':
             pbk = 0
         else:
@@ -50,6 +51,7 @@ class Settings(QDialog):
         self.config['warren']['file_keytype'] = self.ui.file_key_type_box.currentIndex() == 0 and 'SSK@' or 'CHK@'
         self.config['warren']['browser_command'] = str(self.ui.browser_command.text())
         self.config['warren']['max_clipboard_keys'] = self.ui.max_clipboard_keys.value()
+        self.config['warren']['start_on_top'] = self.ui.start_with_on_top.isChecked()
 
         self.config.write()
         self.hide()
