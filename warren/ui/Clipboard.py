@@ -16,6 +16,7 @@ class Clipboard(QWidget):
 
         self.clip = qApp.clipboard()
         self.clip.changed.connect(self.cbChanged)
+        self.clip.setText("") # little trick to make clipboard work on windows from the beginning
 
         if self.clip.supportsSelection():
             self.clip.selectionChanged.connect(self.selChanged)
