@@ -26,7 +26,7 @@ class MainWindow(QWidget):
         self.imagePath = determine_path()
         self.dropZone.setPixmap(QPixmap(self.imagePath+'dropzone_nocon.png'))
         # use a little frame until we have nice icons
-#        self.dropZone.setFrameStyle(QFrame.Sunken | QFrame.StyledPanel)
+        self.dropZone.setFrameStyle(QFrame.Sunken | QFrame.StyledPanel)
         self.dropZone.dropped.connect(self.dropEvent)
         self.dropZone.entered.connect(self.enterEvent)
 
