@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'warren/ui/SettingsDialog.ui'
 #
-# Created: Fri May  6 10:21:05 2011
-#      by: PyQt4 UI code generator 4.7.2
+# Created: Mon May  9 13:49:03 2011
+#      by: PyQt4 UI code generator 4.7.3
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -56,10 +56,10 @@ class Ui_SettingsDialog(object):
         self.gridLayout.addWidget(self.node_fcp_port_edit, 1, 1, 1, 1)
         self.testResultsEdit = QtGui.QTextEdit(self.gridLayoutWidget)
         self.testResultsEdit.setObjectName("testResultsEdit")
-        self.gridLayout.addWidget(self.testResultsEdit, 3, 1, 1, 1)
+        self.gridLayout.addWidget(self.testResultsEdit, 4, 1, 1, 1)
         self.testSettingsButton = QtGui.QPushButton(self.gridLayoutWidget)
         self.testSettingsButton.setObjectName("testSettingsButton")
-        self.gridLayout.addWidget(self.testSettingsButton, 3, 2, 1, 1)
+        self.gridLayout.addWidget(self.testSettingsButton, 4, 2, 1, 1)
         self.node_http_port_edit = QtGui.QSpinBox(self.gridLayoutWidget)
         self.node_http_port_edit.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.node_http_port_edit.setMinimum(1025)
@@ -70,6 +70,14 @@ class Ui_SettingsDialog(object):
         self.fproxy_port_label = QtGui.QLabel(self.gridLayoutWidget)
         self.fproxy_port_label.setObjectName("fproxy_port_label")
         self.gridLayout.addWidget(self.fproxy_port_label, 2, 2, 1, 1)
+        self.node_use_https = QtGui.QCheckBox(self.gridLayoutWidget)
+        self.node_use_https.setLayoutDirection(QtCore.Qt.RightToLeft)
+        self.node_use_https.setText("")
+        self.node_use_https.setObjectName("node_use_https")
+        self.gridLayout.addWidget(self.node_use_https, 3, 1, 1, 1)
+        self.node_use_https_label = QtGui.QLabel(self.gridLayoutWidget)
+        self.node_use_https_label.setObjectName("node_use_https_label")
+        self.gridLayout.addWidget(self.node_use_https_label, 3, 2, 1, 1)
         self.tabWidget.addTab(self.node_settings_tab, "")
         self.http_settings_tab = QtGui.QWidget()
         self.http_settings_tab.setObjectName("http_settings_tab")
@@ -155,6 +163,7 @@ class Ui_SettingsDialog(object):
         self.node_port_label.setText(QtGui.QApplication.translate("SettingsDialog", "FCP Port", None, QtGui.QApplication.UnicodeUTF8))
         self.testSettingsButton.setText(QtGui.QApplication.translate("SettingsDialog", "Test Settings", None, QtGui.QApplication.UnicodeUTF8))
         self.fproxy_port_label.setText(QtGui.QApplication.translate("SettingsDialog", "Fproxy Port", None, QtGui.QApplication.UnicodeUTF8))
+        self.node_use_https_label.setText(QtGui.QApplication.translate("SettingsDialog", "Fproxy SSL", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.node_settings_tab), QtGui.QApplication.translate("SettingsDialog", "Node", None, QtGui.QApplication.UnicodeUTF8))
         self.proxy_host_label.setText(QtGui.QApplication.translate("SettingsDialog", "Proxy Host", None, QtGui.QApplication.UnicodeUTF8))
         self.proxy_port_label.setText(QtGui.QApplication.translate("SettingsDialog", "Proxy Port", None, QtGui.QApplication.UnicodeUTF8))

@@ -29,6 +29,7 @@ class Settings(QDialog):
         self.ui.browser_command.setText(self.config['warren']['browser_command'])
         self.ui.max_clipboard_keys.setProperty("value", self.config['warren']['max_clipboard_keys'])
         self.ui.start_with_on_top.setChecked(self.config['warren'].as_bool('start_on_top'))
+        self.ui.node_use_https.setChecked(self.config['node'].as_bool('fproxy_ssl'))
         if self.config['warren']['pastebin_keytype']=='SSK@':
             pbk = 0
         else:
@@ -45,6 +46,7 @@ class Settings(QDialog):
         self.config['node']['host'] = str(self.ui.node_host_edit.text())
         self.config['node']['fcp_port'] = self.ui.node_fcp_port_edit.value()
         self.config['node']['fproxy_port'] = self.ui.node_http_port_edit.value()
+        self.config['node']['fproxy_ssl'] = self.ui.node_use_https.isChecked()
         self.config['proxy']['http']['host'] = str(self.ui.proxy_host_edit.text())
         self.config['proxy']['http']['port'] = self.ui.proxy_port_edit.value()
         self.config['warren']['pastebin_keytype'] = self.ui.pastebin_key_type_box.currentIndex() == 0 and 'SSK@' or 'CHK@'
