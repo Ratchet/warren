@@ -1,0 +1,8 @@
+== version 0.2.3 ==
+
+- "Open in Browser" now works for https if configured in settings.
+- Better pattern to recognize freenet keys.
+- New Icons
+- Keep-alive requests to prevent socket timeouts to node.
+- Pastebin doesn't allow pastes in disconnected state any more.
+- Application Title and Icon for taskbar

@@ -11,6 +11,6 @@ Warren is a dropzone-application for link:http://www.freenetproject.org[Freenet]
 * python 2.6
 * PyQt4
 * configobj
-* pyFreenet
+* lib-pyFreenet-staging
 
 IMPORTANT: at the moment a modified version of pyFreenet is required. Warren will not run without it. This will be fixed soon.
