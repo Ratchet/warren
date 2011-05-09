@@ -5,7 +5,8 @@ import re
 #KEY_PATTERN = re.compile('([USK@|CHK@|SSK@|KSK@].*)[\s|\r|\n]')
 #KEY_PATTERN = re.compile('USK@.*|CHK@.*|SSK@.*|KSK@.*?$')
 #KEY_PATTERN = re.compile('(USK|SSK)@[a-zA-Z0-9,-\/]*')
-KEY_PATTERN = re.compile("(USK|SSK|CHK|KSK)@([a-zA-Z0-9\,\-\/\~\.]*)")
+#KEY_PATTERN = re.compile("(USK|SSK|CHK|KSK)@([a-zA-Z0-9\,\-\/\~\.]*)")
+KEY_PATTERN = re.compile("(USK|SSK|CHK|KSK)@([a-zA-Z0-9\,\-\/\~\.]{50,}\,[A-Z]{4,}[\S]*)")
 
 class Clipboard(QWidget):
 
