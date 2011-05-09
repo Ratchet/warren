@@ -12,5 +12,6 @@ class Browser(object):
         else:
             browser = webbrowser.get()
 
-        url = 'http://'+self.config['node']['host']+':'+str(self.config['node']['fproxy_port'])+'/'+key
+        proto = self.config['node'].as_bool('fproxy_ssl') and 'https' or 'http'
+        url = proto+'://'+self.config['node']['host']+':'+str(self.config['node']['fproxy_port'])+'/'+key
         browser.open_new_tab(url)
