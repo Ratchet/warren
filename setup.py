@@ -3,7 +3,7 @@ from setuptools import setup
 files = ['images/*']
 
 setup(name = "warren",
-    version = "0.2.2",
+    version = "0.2.3",
     description = "A dropzone application for Freenet",
     url="http://example.com",
     author = "Ratchet",

@@ -16,7 +16,7 @@ def checkFileForInsert(mimeData, proxy=None):
     try:
         for format in mimeData.formats():
             if format == "text/uri-list":
-                url = str(mimeData.urls()[0].toString()) # only use the first one
+                url = unicode(mimeData.urls()[0].toString()).encode('utf-8') # only use the first one
                 opener = buildOpener(url, proxy)
                 u = opener.open(url)
                 for header in u.headers.items():
