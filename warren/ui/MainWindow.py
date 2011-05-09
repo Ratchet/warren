@@ -46,11 +46,13 @@ class MainWindow(QWidget):
 
         self.config = Config.Config()
         self.settings = Settings.Settings(self.config)
-        self.pastebin = Pastebin.Pastebin()
+        self.pastebin = Pastebin.Pastebin(self)
         self.nodeManager = NodeManager.NodeManager(self.config)
         self.setKeepOnTop(self.config['warren'].as_bool('start_on_top'))
         self.connect(self.nodeManager, SIGNAL("nodeConnected()"), self.nodeConnected)
+        self.connect(self.nodeManager, SIGNAL("nodeConnected()"), self.pastebin.nodeConnected)
         self.connect(self.nodeManager, SIGNAL("nodeConnectionLost()"), self.nodeNotConnected)
+        self.connect(self.nodeManager, SIGNAL("nodeConnectionLost()"), self.pastebin.nodeNotConnected)
         self.connect(self.nodeManager, SIGNAL("pasteCanceledMessage()"), self.pastebin.reject)
         self.connect(self.pastebin, SIGNAL("newPaste(QString)"), self.nodeManager.newPaste)
         self.connect(self.nodeManager, SIGNAL("pasteFinished()"), self.pastebin.reject)
@@ -142,7 +144,6 @@ class MainWindow(QWidget):
                 self.clipboardKeys.insert(0,key)
 
     def enterEvent(self, mimeData = None):
-
         if not mimeData or not hasattr(mimeData, 'formats'): return
 
         if self.nodeManagerConnected:
@@ -161,7 +162,8 @@ class MainWindow(QWidget):
     def dropEvent(self, mimeData = None):
 
         if not mimeData or not hasattr(mimeData, 'formats') or not self.nodeManagerConnected:
-            self.dropZone.setPixmap(QPixmap(self.imagePath+'dropzone.png')) # because it's leave event, too (mimeData=None)
+            if self.nodeManagerConnected:
+                self.dropZone.setPixmap(QPixmap(self.imagePath+'dropzone.png')) # because it's leave event, too (mimeData=None)
             self.dropData = {'accepted' : False, 'url' : None, 'content-type' : None}
             return
 
