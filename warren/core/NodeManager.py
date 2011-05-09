@@ -215,6 +215,10 @@ class NodeWatchdog(QThread):
             QThread.msleep(5000)
             isNodeRunning = self.nodeManager.node is not None and self.nodeManager.node.running
             isNodeAlive = self.nodeManager.node is not None and self.nodeManager.node.nodeIsAlive
+            try:
+                self.nodeManager.node._submitCmd('warren_ping','Void',async=False,timeout=1)
+            except:
+                pass
             if not isNodeRunning or not isNodeAlive:
                 self.emit(SIGNAL("nodeNotConnected()"))
 
