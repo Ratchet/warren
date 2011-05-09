@@ -1,4 +1,4 @@
-from PyQt4.QtGui import QWidget, QLabel, QHBoxLayout, QMenu, qApp, QPixmap, QFrame, QClipboard, QContextMenuEvent
+from PyQt4.QtGui import QWidget, QLabel, QHBoxLayout, QMenu, qApp, QPixmap, QFrame, QClipboard, QContextMenuEvent, QIcon
 from PyQt4.QtCore import Qt, SIGNAL
 from warren.core import Config, NodeManager, FileManager, Browser
 from warren.ui import Settings, Pastebin, DropZone, Clipboard
@@ -19,11 +19,13 @@ class MainWindow(QWidget):
 
         self.setWindowFlags(Qt.FramelessWindowHint)
         self.setWindowOpacity(1.0)
+        self.setWindowTitle('Warren')
+        self.imagePath = determine_path()
+        self.setWindowIcon(QIcon(self.imagePath+'warren.ico'))
         layout = QHBoxLayout()
         layout.setMargin(0)
         self.dropZone = DropZone.DropZone()
         self.dropZone.setMargin(0)
-        self.imagePath = determine_path()
         self.dropZone.setPixmap(QPixmap(self.imagePath+'dropzone_nocon.png'))
         # use a little frame until we have nice icons
 #        self.dropZone.setFrameStyle(QFrame.Sunken | QFrame.StyledPanel)
