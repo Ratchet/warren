@@ -1,3 +1,6 @@
 /.settings
 .p*
 *.pyc
+*.swp
+MANIFEST
+dist
