@@ -11,5 +11,5 @@ setup(name = "warren",
     packages = ['warren','warren.ui','warren.core'],
     package_data = {'warren' : files },
     scripts = ["WarrenUI"],
-    install_requires = ['configobj>=4.7.2'],
+    install_requires = ['configobj>=4.7.2', 'Pygments>=1.4'],
 ) 
