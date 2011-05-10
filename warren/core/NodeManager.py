@@ -6,6 +6,11 @@ from warren.ui.PasteInsert import Ui_PasteInsertDialog
 import FileManager
 import os.path
 
+from pygments import highlight
+from pygments import lexers
+from pygments.formatters import HtmlFormatter
+
+
 SECLEVELS = {'LOW':0, 'NORMAL':1, 'HIGH':2, 'MAXIMUM':3}
 
 class NodeManager(QThread):
@@ -81,13 +86,13 @@ class NodeManager(QThread):
             self.pasteCanceledMessage.emit()
             self.pasteInsertDialog.close()
 
-    def newPaste(self,qPaste):
+    def newPaste(self,qPaste,lexer,lineNos):
         #TODO handle node disconnect during insert
 
         self.pasteInsertDialog = PasteInsert()
         self.pasteInsertDialog.show()
 
-        self.pasteInsert = PutPaste(qPaste, self)
+        self.pasteInsert = PutPaste(qPaste, lexer, lineNos, self)
         self.pasteInsert.message.connect(self.pasteInsertDialog.messageReceived)
 
         self.pasteInsertDialog.ui.buttonBox.rejected.connect(self.pasteCanceled)
@@ -182,11 +187,13 @@ class PutPaste(QThread):
 
     message = pyqtSignal(object)
 
-    def __init__(self, paste, parent = None):
+    def __init__(self, paste, lexer, lineNos, parent = None):
         QThread.__init__(self, parent)
         self.paste = paste
         self.nodeManager = parent
         self.node = parent.node
+        self.lexer = lexer
+        self.lineNos = lineNos == 'True' and 'Table' or False
 
     def run(self):
         keyType = self.nodeManager.config['warren']['pastebin_keytype']
@@ -195,8 +202,14 @@ class PutPaste(QThread):
 
     def putPaste(self, qPaste, callback, async=True, keyType='SSK@'):
         paste = unicode(qPaste)
-        paste = paste.encode('utf-8')
-        insert = self.node.put(uri=keyType,data=paste,async=async,name='pastebin',Verbosity=5,mimetype="text/plain; charset=utf-8",callback=callback,waituntilsent=True,priority=2,realtime=True)
+        if self.lexer == 'text' and not self.lineNos:
+            paste = paste.encode('utf-8')
+            mimeType = "text/plain; charset=utf-8"
+        else:
+            paste = highlight(paste, lexers.get_lexer_by_name(self.lexer), HtmlFormatter(encoding='utf-8',full=True,linenos=self.lineNos))
+            mimeType = "text/html; charset=utf-8"
+
+        insert = self.node.put(uri=keyType,data=paste,async=async,name='pastebin',Verbosity=5,mimetype=mimeType,callback=callback,waituntilsent=True,priority=2,realtime=True)
         return insert
 
     def insertcb(self,val1,val2):
