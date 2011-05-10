@@ -38,6 +38,7 @@ class Pastebin(QDialog):
         self.ui.plainTextEdit.clear()
         self.ui.plainTextEdit.setReadOnly(True)
         self.ui.buttonBox.buttons()[0].setDisabled(True)
+        self.ui.linenos_checkbox.setChecked(False)
         self.ui.plainTextEdit.appendPlainText('Please wait until already running insert is finished.')
         self.emit(QtCore.SIGNAL("newPaste(QString, QString, QString)"),qPaste,lexer,str(lineNos))
         self.hide()
@@ -45,6 +46,7 @@ class Pastebin(QDialog):
     def reject(self):
         if self.parent.nodeManagerConnected:
             self.ui.plainTextEdit.clear()
+            self.ui.linenos_checkbox.setChecked(False)
             self.ui.buttonBox.buttons()[0].setEnabled(True)
             self.ui.plainTextEdit.setReadOnly(False)
         self.hide()
