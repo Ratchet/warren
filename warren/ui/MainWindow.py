@@ -56,7 +56,7 @@ class MainWindow(QWidget):
         self.connect(self.nodeManager, SIGNAL("nodeConnectionLost()"), self.nodeNotConnected)
         self.connect(self.nodeManager, SIGNAL("nodeConnectionLost()"), self.pastebin.nodeNotConnected)
         self.connect(self.nodeManager, SIGNAL("pasteCanceledMessage()"), self.pastebin.reject)
-        self.connect(self.pastebin, SIGNAL("newPaste(QString)"), self.nodeManager.newPaste)
+        self.connect(self.pastebin, SIGNAL("newPaste(QString, QString, QString)"), self.nodeManager.newPaste)
         self.connect(self.nodeManager, SIGNAL("pasteFinished()"), self.pastebin.reject)
 
         self.browser = Browser.Browser(self.config)
