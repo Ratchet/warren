@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'PasteInsert.ui'
+# Form implementation generated from reading ui file 'warren/ui/PasteInsert.ui'
 #
-# Created: Thu Apr 28 21:00:10 2011
+# Created: Tue May 10 18:24:47 2011
 #      by: PyQt4 UI code generator 4.7.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -13,6 +13,12 @@ class Ui_PasteInsertDialog(object):
     def setupUi(self, PasteInsertDialog):
         PasteInsertDialog.setObjectName("PasteInsertDialog")
         PasteInsertDialog.resize(546, 106)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(PasteInsertDialog.sizePolicy().hasHeightForWidth())
+        PasteInsertDialog.setSizePolicy(sizePolicy)
+        PasteInsertDialog.setMaximumSize(QtCore.QSize(546, 106))
         self.buttonBox = QtGui.QDialogButtonBox(PasteInsertDialog)
         self.buttonBox.setGeometry(QtCore.QRect(360, 70, 171, 32))
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
