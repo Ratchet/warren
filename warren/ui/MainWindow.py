@@ -1,4 +1,4 @@
-from PyQt4.QtGui import QWidget, QLabel, QHBoxLayout, QMenu, qApp, QPixmap, QFrame, QClipboard, QContextMenuEvent, QIcon
+from PyQt4.QtGui import QWidget, QLabel, QHBoxLayout, QMenu, qApp, QPixmap, QFrame, QClipboard, QContextMenuEvent, QIcon, QApplication
 from PyQt4.QtCore import Qt, SIGNAL
 from warren.core import Config, NodeManager, FileManager, Browser
 from warren.ui import Settings, Pastebin, DropZone, Clipboard
@@ -60,6 +60,20 @@ class MainWindow(QWidget):
         self.connect(self.nodeManager, SIGNAL("pasteFinished()"), self.pastebin.reject)
 
         self.browser = Browser.Browser(self.config)
+
+        self.positionWindow()
+        self.show()
+
+    def positionWindow(self):
+        desktop = QApplication.desktop()
+        dwidht = desktop.width()
+        dheight =desktop.height()
+        last_x = int(self.config['warren']['last_window_pos'][0])
+        last_y = int(self.config['warren']['last_window_pos'][1])
+        if last_x > dwidht or last_y > dheight:
+            self.move(0,0)
+        else:
+            self.move(last_x,last_y)
 
     def contextMenuEvent(self, event):
 
@@ -196,5 +210,7 @@ class MainWindow(QWidget):
 
     def closeApp(self):
         self.nodeManager.stop()
+        self.config['warren']['last_window_pos'] = [str(self.x()),str(self.y())]
+        self.config.write()
         qApp.quit()
 

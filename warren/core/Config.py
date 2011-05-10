@@ -7,6 +7,7 @@ CONFIG_DEFAULTS = {'node' : {'host':'127.0.0.1','fcp_port':9481, 'fproxy_port':8
                                'browser_command' : '',
                                'max_clipboard_keys' : 5,
                                'start_on_top' : False,
+                               'last_window_pos' : ['0','0'],
                                'show_file_dropped_dialog':True},
                    }
 
