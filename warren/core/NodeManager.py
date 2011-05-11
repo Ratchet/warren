@@ -104,7 +104,10 @@ class NodeManager(QThread):
         self.emit(SIGNAL("inserterMessage(QString)"),QString(msg))
 
     def insertFile(self, url, mimeType):
-        fileInsert = FileManager.FileInsert(self, url, mimeType, proxy=self.config['proxy']['http'])
+        if mimeType == 'directory':
+            fileInsert = FileManager.DirectoryInsert(self, url)
+        else:
+            fileInsert = FileManager.FileInsert(self, url, mimeType, proxy=self.config['proxy']['http'])
         fileInsert.start()
         showTip = self.config['warren'].as_bool('show_file_dropped_dialog')
         if showTip:
