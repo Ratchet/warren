@@ -1,5 +1,7 @@
 == version 0.2.4 ==
 
+- Drag&Drop insert of directories as zipped files
+- Optional syntax highliting in pastebin
 - Remember window position over program restart
 - fix errors with unicode filenames
 
