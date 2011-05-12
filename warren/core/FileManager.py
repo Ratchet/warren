@@ -45,7 +45,7 @@ class DirectoryInsert(QThread):
         zipFile.seek(0)
         keyType = self.nodeManager.config['warren']['file_keytype']
 
-        insert = self.nodeManager.node.put(uri=keyType,data=zipFile.read(),async=True,name=zipFileName,persistence='forever',Global=True,id='Warren-'+zipFileName,mimetype='application/zip',waituntilsent=True)
+        insert = self.nodeManager.node.put(uri=keyType,data=zipFile.read(),async=True,name=zipFileName,persistence='forever',Global=True,id='Warren-'+zipFileName,mimetype='application/zip',waituntilsent=True,priority=4)
         self.quit() # because we put everything on node's global queue, we are not interested in what happens after put()
 
     def zipDir(self, dirPath):
@@ -129,9 +129,9 @@ class FileInsert(QThread):
         #      only if node answer with error on method "disk", fall back to method "direct"
         #      AND WHY THE FUCK BLOCKS PYFREENET THE WHOLE PROGRAM WHILE UPLOADING EVEN IF IT RUNS IN THREAD???
         if method == 'data':
-            return self.nodeManager.node.put(uri=keyType,data=data,async=True,name=filename,persistence='forever',Global=True,id='Warren-'+filename,mimetype=mime_type,waituntilsent=True)
+            return self.nodeManager.node.put(uri=keyType,data=data,async=True,name=filename,persistence='forever',Global=True,id='Warren-'+filename,mimetype=mime_type,waituntilsent=True,priority=4)
         if method == 'disk':
-            return self.nodeManager.node.put(uri=keyType,file=data,async=True,name=filename,persistence='forever',Global=True,id='Warren-'+filename,mimetype=mime_type,waituntilsent=True)
+            return self.nodeManager.node.put(uri=keyType,file=data,async=True,name=filename,persistence='forever',Global=True,id='Warren-'+filename,mimetype=mime_type,waituntilsent=True,priority=4)
 
 
 
