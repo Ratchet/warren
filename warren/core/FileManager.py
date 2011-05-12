@@ -71,11 +71,10 @@ class DirectoryInsert(QThread):
                 filePath = os.path.join(archiveDirPath, fileName)
                 zipFile.write(filePath, os.path.join(dirName,trimPath(filePath)))
 
-# TODO empty folders
-#            if not fileNames and not dirNames: # empty folders
-#                zipInfo = zipfile.ZipInfo(trimPath(archiveDirPath) + "/")
-#                print "zipInfo "+str(zipInfo.filename)
-#                zipFile.write(zipInfo, "")
+            if not fileNames and not dirNames: # empty folders
+                zipInfo = zipfile.ZipInfo(os.path.join(dirName,trimPath(archiveDirPath) + "/"))
+                zipInfo.external_attr = 0777 << 16L
+                zipFile.writestr(zipInfo, "")
 
         return (dirName+'.zip', ramFile)
 
