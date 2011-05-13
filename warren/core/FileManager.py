@@ -25,7 +25,9 @@ def checkFileForInsert(mimeData, proxy=None):
                         u.close()
                         return (url, header[1])
             except IOError,e:
-                if e.errno == 21: #directory
+                if e.errno == 21: #directory on linux
+                    return (url,'directory')
+                elif e.errno == 13 and os.path.isdir(url): #directory on windows
                     return (url,'directory')
                 else:
                     return False
@@ -49,7 +51,8 @@ class DirectoryInsert(QThread):
         self.quit() # because we put everything on node's global queue, we are not interested in what happens after put()
 
     def zipDir(self, dirPath):
-        plainUrl = self.url[7:]
+        tmpReq = urllib2.Request(self.url)
+        plainUrl = tmpReq.get_selector()
         parentDir, dirName = os.path.split(plainUrl)
         includeDirInZip = False
 
@@ -94,8 +97,9 @@ class FileInsert(QThread):
         # TODO GET RID OF PYFREENET or tell toad_ to fix testDDARequest!!!!!!
         testDDAResult = False
         keyType = self.nodeManager.config['warren']['file_keytype']
-        if self.url[:4] == 'file':
-            plainUrl = self.url[7:]
+        tmpReq = urllib2.Request(self.url)
+        if tmpReq.get_type() == 'file':
+            plainUrl = tmpReq.get_selector()
             try:
                 directory = os.path.split(plainUrl)[0]
                 testDDA = self.nodeManager.node.testDDA(async=False, Directory=directory, WantReadDirectory=True, timeout=5)
